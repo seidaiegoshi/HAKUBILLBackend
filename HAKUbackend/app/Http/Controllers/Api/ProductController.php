@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -14,7 +15,12 @@ class ProductController extends Controller
      */
     public function index()
     {
-        //
+        $channels = Product::orderBy('created_at', 'asc')
+            ->paginate(20);
+
+        return response()->json([
+            $channels
+        ]);
     }
 
     /**
@@ -46,12 +52,7 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        return response()->json([
-            "id" => 1,
-            "name" => "テスト商品",
-            "cost" => 200,
-            "unit" => "袋",
-        ]);    }
+    }
 
     /**
      * Show the form for editing the specified resource.
