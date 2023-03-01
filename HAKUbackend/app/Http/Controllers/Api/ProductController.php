@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\ProductResource;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
@@ -18,9 +19,10 @@ class ProductController extends Controller
         $channels = Product::orderBy('created_at', 'asc')
             ->paginate(20);
 
-        return response()->json([
-            $channels
-        ]);
+        return ProductResource::collection($channels);
+        // return response()->json([
+        //     $channels
+        // ]);
     }
 
     /**
