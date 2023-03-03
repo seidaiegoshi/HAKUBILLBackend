@@ -15,11 +15,12 @@ return [
     |
     */
 
-    'paths' => ['*'],
+    'paths' => ['api/*'],
 
-    'allowed_methods' => ['*'],
+    'allowed_methods' => ['GET,POST,DELETE,PUT'],
 
-    'allowed_origins' => [env('FRONTEND_URL'), env('FRONTEND_URL_DEV')],
+    // 'allowed_origins' => [env('FRONTEND_URL'), env('FRONTEND_URL_DEV')],
+    'allowed_origins' => ['*'],
 
     'allowed_origins_patterns' => [],
 
