@@ -23,4 +23,4 @@ jobs:
          script: |
            cd ${{ secrets.SERVER_DEPLOY_DIR }}
            git pull origin main
-           php artisan migrate
+           php artisan migrate --force
