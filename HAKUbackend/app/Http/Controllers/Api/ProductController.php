@@ -17,7 +17,7 @@ class ProductController extends Controller
     public function index()
     {
         $channels = Product::orderBy('created_at', 'asc')
-            ->paginate(20);
+            ->get();
 
         return ProductResource::collection($channels);
         // return response()->json([
