@@ -16,7 +16,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $channels = Product::orderBy('created_at', 'asc')
+        $channels = Product::orderBy('created_at', 'desc')
             ->get();
 
         return ProductResource::collection($channels);
@@ -32,7 +32,6 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
     }
 
     /**
@@ -43,7 +42,16 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $product = Product::create([
+            "name" => $request->input("name"),
+            "cost" => $request->input("cost"),
+            "unit" => $request->input("unit"),
+            "tax_class" =>
+            $request->input("tax_class"),
+            "price" =>
+            $request->input("price"),
+        ]);
+        return new ProductResource($product);
     }
 
     /**
