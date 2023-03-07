@@ -18,4 +18,9 @@ class DeliverySlip extends Model
     {
         return $this->belongsTo(Customer::class);
     }
+
+    public function delivery_contents()
+    {
+        return $this->hasMany(DeliveryContent::class);
+    }
 }

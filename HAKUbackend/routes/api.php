@@ -40,5 +40,8 @@ Route::prefix("delivery_slips")
     ->name("delivery_slips.")
     ->group(function () {
         Route::get("", [DeliverySlipController::class, "index"])->name("index");
+
+        Route::get("/{id}", [DeliverySlipController::class, "show"])->name("show");
+
         Route::post("", [DeliverySlipController::class, "store"])->name("store");
     });

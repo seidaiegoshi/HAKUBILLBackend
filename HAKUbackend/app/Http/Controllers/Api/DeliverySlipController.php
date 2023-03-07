@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\DeliverySlipResource;
+use App\Models\DeliveryContent;
 use App\Models\DeliverySlip;
 use Illuminate\Http\Request;
 
@@ -40,10 +41,11 @@ class DeliverySlipController extends Controller
      */
     public function store(Request $request)
     {
-        $product = DeliverySlip::create([
+        $ds = DeliverySlip::create([
             "customer_id" => $request->input("customer_id"),
             "publish_date" => $request->input("publish_date"),
         ]);
+        return new DeliverySlipResource($ds);
     }
 
     /**
@@ -54,7 +56,8 @@ class DeliverySlipController extends Controller
      */
     public function show($id)
     {
-        //
+        $ds = DeliverySlip::find($id)->delivery_contents()->get();
+        return $ds;
     }
 
     /**
