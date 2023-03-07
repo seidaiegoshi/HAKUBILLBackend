@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Customer;
 use App\Models\CustomerPrice;
+use App\Models\DeliverySlip;
 use App\Models\Product;;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -21,5 +22,6 @@ class LocalSeeder extends Seeder
         Product::factory()->count(10)->create();
         Customer::factory()->count(10)->create();
         CustomerPrice::factory()->count(10)->create();
+        DeliverySlip::factory()->count(10)->create();
     }
 }

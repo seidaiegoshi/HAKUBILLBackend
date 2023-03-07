@@ -27,7 +27,6 @@ return new class extends Migration
                 ->onDelete("cascade");
             $table->decimal("price", 8, 1);
             $table->timestamps();
-            $table->unique(["customer_id", "product_id"]);
         });
     }
 
