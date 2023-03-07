@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\CustomerController;
 use App\Http\Controllers\Api\DeliverySlipController;
+use App\Http\Controllers\Api\InvoiceController;
 use App\Http\Controllers\Api\ProductController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -44,4 +45,14 @@ Route::prefix("delivery_slips")
         Route::get("/{id}", [DeliverySlipController::class, "show"])->name("show");
 
         Route::post("", [DeliverySlipController::class, "store"])->name("store");
+    });
+
+Route::prefix("invoice")
+    ->name("invoice.")
+    ->group(function () {
+        Route::get("", [InvoiceController::class, "index"])->name("index");
+
+        Route::get("/{id}", [InvoiceController::class, "show"])->name("show");
+
+        Route::post("", [InvoiceController::class, "store"])->name("store");
     });
