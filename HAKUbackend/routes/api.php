@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\CustomerController;
+use App\Http\Controllers\Api\DeliverySlipController;
 use App\Http\Controllers\Api\ProductController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -33,4 +34,11 @@ Route::prefix("customers")
     ->group(function () {
         Route::get("", [CustomerController::class, "index"])->name("index");
         Route::post("", [CustomerController::class, "store"])->name("store");
+    });
+
+Route::prefix("delivery_slips")
+    ->name("delivery_slips.")
+    ->group(function () {
+        Route::get("", [DeliverySlipController::class, "index"])->name("index");
+        Route::post("", [DeliverySlipController::class, "store"])->name("store");
     });

@@ -13,4 +13,9 @@ class DeliverySlip extends Model
         "customer_id",
         "publish_date",
     ];
+
+    public function customer()
+    {
+        return $this->belongsTo(Customer::class);
+    }
 }

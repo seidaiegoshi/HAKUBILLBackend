@@ -23,4 +23,9 @@ class Customer extends Model
     {
         return $this->belongsToMany(Product::class);
     }
+
+    public function delivery_slips()
+    {
+        return $this->hasMany(DeliverySlip::class);
+    }
 }
