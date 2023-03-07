@@ -11,13 +11,13 @@ class Product extends Model
 
 
     // fillableかguardedどっちか1つは必ず使う
-    // protected $fillable = [
-    //     "name","cost","unit","tax_class","price"
-    // ];
-
-    protected $guarded = [
-        "id",
-        "created_at",
-        "updated_at",
+    protected $fillable = [
+        "name", "cost", "unit", "tax_class", "price"
     ];
+
+    // protected $guarded = [
+    //     "id",
+    //     "created_at",
+    //     "updated_at",
+    // ];
 }
