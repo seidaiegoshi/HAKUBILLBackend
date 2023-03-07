@@ -18,4 +18,9 @@ class Customer extends Model
         "telephone_number",
         "fax_number"
     ];
+
+    public function products()
+    {
+        return $this->belongsToMany(Product::class);
+    }
 }
