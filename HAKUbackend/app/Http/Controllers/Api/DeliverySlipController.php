@@ -3,11 +3,12 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\ProductResource;
-use App\Models\Product;
+use App\Http\Resources\DeliverySlipResource;
+use App\Models\DeliveryContent;
+use App\Models\DeliverySlip;
 use Illuminate\Http\Request;
 
-class ProductController extends Controller
+class DeliverySlipController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,13 +17,10 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $channels = Product::orderBy('created_at', 'desc')
+        $ds = DeliverySlip::orderBy("created_at", "desc")
             ->get();
 
-        return ProductResource::collection($channels);
-        // return response()->json([
-        //     $channels
-        // ]);
+        return DeliverySlipResource::collection($ds);
     }
 
     /**
@@ -32,6 +30,7 @@ class ProductController extends Controller
      */
     public function create()
     {
+        //
     }
 
     /**
@@ -42,16 +41,11 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        $product = Product::create([
-            "name" => $request->input("name"),
-            "cost" => $request->input("cost"),
-            "unit" => $request->input("unit"),
-            "tax_class" =>
-            $request->input("tax_class"),
-            "price" =>
-            $request->input("price"),
+        $ds = DeliverySlip::create([
+            "customer_id" => $request->input("customer_id"),
+            "publish_date" => $request->input("publish_date"),
         ]);
-        return new ProductResource($product);
+        return new DeliverySlipResource($ds);
     }
 
     /**
@@ -62,6 +56,8 @@ class ProductController extends Controller
      */
     public function show($id)
     {
+        $ds = DeliverySlip::find($id)->delivery_contents()->get();
+        return $ds;
     }
 
     /**

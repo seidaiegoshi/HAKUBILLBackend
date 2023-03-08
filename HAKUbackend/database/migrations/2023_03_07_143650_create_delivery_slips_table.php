@@ -13,13 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('products', function (Blueprint $table) {
+        Schema::create('delivery_slips', function (Blueprint $table) {
             $table->id();
-            $table->string("name")->comment("商品名");
-            $table->decimal("cost", 8, 1)->comment("原価(変動費)");
-            $table->string("unit")->comment("単位");
-            $table->integer("tax_class")->comment("税区分");
-            $table->decimal("price", 8, 1,)->comment("販売価格(デフォルト)");
+            $table->foreignId("customer_id");
+            $table->date("publish_date");
             $table->timestamps();
         });
     }
@@ -31,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('products');
+        Schema::dropIfExists('delivery_slips');
     }
 };

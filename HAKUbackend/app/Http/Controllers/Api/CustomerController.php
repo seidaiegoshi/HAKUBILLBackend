@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\ProductResource;
-use App\Models\Product;
+use App\Http\Resources\CustomerResource;
+use App\Models\Customer;
 use Illuminate\Http\Request;
 
-class ProductController extends Controller
+class CustomerController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,13 +16,10 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $channels = Product::orderBy('created_at', 'desc')
+        $customers = Customer::orderBy("created_at", "desc")
             ->get();
 
-        return ProductResource::collection($channels);
-        // return response()->json([
-        //     $channels
-        // ]);
+        return CustomerResource::collection($customers);
     }
 
     /**
@@ -32,6 +29,7 @@ class ProductController extends Controller
      */
     public function create()
     {
+        //
     }
 
     /**
@@ -42,16 +40,20 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        $product = Product::create([
-            "name" => $request->input("name"),
-            "cost" => $request->input("cost"),
-            "unit" => $request->input("unit"),
-            "tax_class" =>
-            $request->input("tax_class"),
-            "price" =>
-            $request->input("price"),
+        $product = Customer::create([
+            "company_name" => $request->input("company_name"),
+            "honorific" => $request->input("honorific"),
+            "post" => $request->input("post"),
+            "post_code" =>
+            $request->input("post_code"),
+            "address" =>
+            $request->input("address"),
+            "telephone_number" =>
+            $request->input("telephone_number"),
+            "fax_number" =>
+            $request->input("fax_number"),
         ]);
-        return new ProductResource($product);
+        return new CustomerResource($product);
     }
 
     /**
@@ -62,6 +64,7 @@ class ProductController extends Controller
      */
     public function show($id)
     {
+        //
     }
 
     /**
