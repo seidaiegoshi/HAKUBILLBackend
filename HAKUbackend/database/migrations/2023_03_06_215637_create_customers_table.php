@@ -23,6 +23,8 @@ return new class extends Migration
             $table->char("telephone_number", 14)->nullable()->comment("電話番号");
             $table->char("fax_number", 14)->nullable()->comment("FAX番号");
             $table->timestamps();
+
+            $table->index("company_name");
         });
     }
 

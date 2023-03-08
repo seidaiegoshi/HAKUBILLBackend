@@ -21,6 +21,8 @@ return new class extends Migration
             $table->integer("tax_class")->comment("税区分");
             $table->decimal("price", 8, 1,)->comment("販売価格(デフォルト)");
             $table->timestamps();
+
+            $table->index("name");
         });
     }
 
