@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('delivery_contents', function (Blueprint $table) {
             $table->id();
-            $table->foreignId("delivery_slip_id");
-            $table->foreignId("product_id");
+            $table->foreignId("delivery_slip_id")->constrained();;
+            $table->foreignId("product_id")->constrained();;
             $table->decimal("quantity", 8, 1);
             $table->timestamps();
         });
