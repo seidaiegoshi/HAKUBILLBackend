@@ -18,6 +18,7 @@ class ProductFactory extends Factory
     {
         return [
             "name" => fake()->colorName(),
+            // "product_category_id" => \App\Models\ProductCategory::all()->random(1)[0]->id,
             "cost" => fake()->randomFloat(7, 10, 10000),
             "unit" => fake()->randomElement(["袋", "箱", "Kg", "g"]),
             "tax_class" => fake()->randomDigit(),
