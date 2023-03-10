@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ProductResource;
 use App\Models\Product;
+use App\Models\ProductCategory;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -23,6 +24,12 @@ class ProductController extends Controller
         // return response()->json([
         //     $channels
         // ]);
+    }
+
+    public function categories()
+    {
+        $categories = ProductCategory::with("products")->get();
+        return $categories;
     }
 
     /**
@@ -63,6 +70,8 @@ class ProductController extends Controller
     public function show($id)
     {
     }
+
+
 
     /**
      * Show the form for editing the specified resource.

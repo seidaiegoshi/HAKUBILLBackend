@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->string("name")->comment("商品名");
-            $table->foreignId("product_category_id")->nullable();
+            $table->foreignId("product_category_id");
             $table->decimal("cost", 8, 1)->comment("原価(変動費)");
             $table->string("unit")->comment("単位");
             $table->integer("tax_class");
