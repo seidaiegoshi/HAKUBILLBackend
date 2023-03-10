@@ -27,6 +27,7 @@ Route::prefix("products")
     ->group(function () {
         Route::get("", [ProductController::class, "index"])->name("index");
         Route::get("/categories", [ProductController::class, "categories"])->name("categories");
+        Route::get("/{id}", [ProductController::class, "show"])->name("show");
         Route::post("", [ProductController::class, "store"])->name("store");
     });
 
@@ -42,9 +43,7 @@ Route::prefix("delivery_slips")
     ->name("delivery_slips.")
     ->group(function () {
         Route::get("", [DeliverySlipController::class, "index"])->name("index");
-
         Route::get("/{id}", [DeliverySlipController::class, "show"])->name("show");
-
         Route::post("", [DeliverySlipController::class, "store"])->name("store");
     });
 
