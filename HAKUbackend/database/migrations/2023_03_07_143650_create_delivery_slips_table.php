@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('delivery_slips', function (Blueprint $table) {
             $table->id();
-            $table->foreignId("customer_id")->constrained();;
+            $table->foreignId("customer_id")->constrained();
             $table->date("publish_date");
             $table->timestamps();
         });
