@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\DeliveryContentResource;
 use App\Http\Resources\DeliverySlipResource;
 use App\Models\DeliveryContent;
 use App\Models\DeliverySlip;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class DeliverySlipController extends Controller
 {
@@ -46,6 +48,30 @@ class DeliverySlipController extends Controller
             "publish_date" => $request->input("publish_date"),
         ]);
         return new DeliverySlipResource($ds);
+    }
+
+
+    public function contents(Request $request)
+    {
+        // Log::debug($request->all());
+        $contentsArray = [];
+
+        foreach ($request->all() as $key => $arr) {
+            // $content = array();
+            $content = new DeliveryContent;
+            foreach ($arr as $key => $value) {
+                $content->$key = $value;
+            }
+            // DeliveryContent::create($content);
+            $content->save();
+            array_push($contentsArray, $content);
+        }
+        // $dc = DeliveryContent::create([
+        //     "delivery_slip_id" => $request->input("delivery_slip_id"),
+        //     "product_id" => $request->input("product_id"),
+        //     "quantity" => $request->input("quantity"),
+        // ]);
+        return $contentsArray;
     }
 
     /**

@@ -9,10 +9,16 @@ class DeliveryContent extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        "delivery_slip_id",
-        "product_id",
-        "quantity",
+    // protected $fillable = [
+    //     "delivery_slip_id",
+    //     "product_id",
+    //     "quantity",
+    // ];
+
+    protected $guarded = [
+        "id",
+        "created_at",
+        "updated_at",
     ];
 
     public function delivery_slip()

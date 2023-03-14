@@ -7,6 +7,8 @@ use App\Http\Resources\ProductResource;
 use App\Models\Product;
 use App\Models\ProductCategory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+
 
 class ProductController extends Controller
 {
@@ -51,6 +53,7 @@ class ProductController extends Controller
     {
         $product = Product::create([
             "name" => $request->input("name"),
+            "product_category_id" => $request->input("product_category_id"),
             "cost" => $request->input("cost"),
             "unit" => $request->input("unit"),
             "tax_class" =>
@@ -58,6 +61,7 @@ class ProductController extends Controller
             "price" =>
             $request->input("price"),
         ]);
+
         return new ProductResource($product);
     }
 

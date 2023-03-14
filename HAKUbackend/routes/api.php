@@ -22,8 +22,8 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::prefix("products")
-    ->name("products.")
+Route::prefix("product")
+    ->name("product.")
     ->group(function () {
         Route::get("", [ProductController::class, "index"])->name("index");
         Route::get("/categories", [ProductController::class, "categories"])->name("categories");
@@ -32,19 +32,20 @@ Route::prefix("products")
     });
 
 
-Route::prefix("customers")
-    ->name("customers.")
+Route::prefix("customer")
+    ->name("customer.")
     ->group(function () {
         Route::get("", [CustomerController::class, "index"])->name("index");
         Route::post("", [CustomerController::class, "store"])->name("store");
     });
 
-Route::prefix("delivery_slips")
-    ->name("delivery_slips.")
+Route::prefix("delivery_slip")
+    ->name("delivery_slip.")
     ->group(function () {
         Route::get("", [DeliverySlipController::class, "index"])->name("index");
         Route::get("/{id}", [DeliverySlipController::class, "show"])->name("show");
         Route::post("", [DeliverySlipController::class, "store"])->name("store");
+        Route::post("/contents", [DeliverySlipController::class, "contents"])->name("contents");
     });
 
 Route::prefix("invoice")
