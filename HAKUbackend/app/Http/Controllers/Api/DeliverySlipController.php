@@ -53,24 +53,16 @@ class DeliverySlipController extends Controller
 
     public function contents(Request $request)
     {
-        // Log::debug($request->all());
         $contentsArray = [];
 
         foreach ($request->all() as $key => $arr) {
-            // $content = array();
             $content = new DeliveryContent;
             foreach ($arr as $key => $value) {
                 $content->$key = $value;
             }
-            // DeliveryContent::create($content);
             $content->save();
             array_push($contentsArray, $content);
         }
-        // $dc = DeliveryContent::create([
-        //     "delivery_slip_id" => $request->input("delivery_slip_id"),
-        //     "product_id" => $request->input("product_id"),
-        //     "quantity" => $request->input("quantity"),
-        // ]);
         return $contentsArray;
     }
 
