@@ -27,4 +27,9 @@ class Product extends Model
     {
         return $this->belongsTo(ProductCategory::class);
     }
+
+    public function delivery_contents()
+    {
+        return $this->hasMany(DeliveryContent::class);
+    }
 }

@@ -25,4 +25,9 @@ class DeliveryContent extends Model
     {
         return $this->belongsTo(DeliverySlip::class);
     }
+
+    public function product()
+    {
+        return $this->belongsTo(Product::class);
+    }
 }

@@ -4,10 +4,10 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ProductResource;
+use App\Models\DeliveryContent;
 use App\Models\Product;
 use App\Models\ProductCategory;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 
 
 class ProductController extends Controller
@@ -32,6 +32,22 @@ class ProductController extends Controller
     {
         $categories = ProductCategory::with("products")->get();
         return $categories;
+    }
+
+    /**
+     * ある期間の商品の販売数一覧を取得する
+     *
+     * @param  string  $from
+     * @param  string  $to
+     * @return \Illuminate\Http\Response
+     */
+    public function sales($from, $to)
+    {
+        $toDate  = date($to, strtotime("1 day")); //期間指定用に1日分追加
+
+        $sumQuantity = DeliveryContent::query()->leftJoin("delivery_slips", "delivery_contents.delivery_slip_id", "=", "delivery_slips.id")->select("delivery_contents.product_id")->whereBetween('delivery_slips.publish_date', [$from, $toDate])->selectRaw("SUM(delivery_contents.quantity) AS sum_quantity")->groupBy("delivery_contents.product_id")->with("product")->get();
+
+        return $sumQuantity;
     }
 
     /**

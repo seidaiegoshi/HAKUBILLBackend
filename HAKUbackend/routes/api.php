@@ -28,6 +28,7 @@ Route::prefix("product")
         Route::get("", [ProductController::class, "index"])->name("index");
         Route::get("/categories", [ProductController::class, "categories"])->name("categories");
         Route::get("/{id}", [ProductController::class, "show"])->name("show");
+        Route::get("/sales/{from}/{to}", [ProductController::class, "sales"])->name("sales");
         Route::post("", [ProductController::class, "store"])->name("store");
     });
 
