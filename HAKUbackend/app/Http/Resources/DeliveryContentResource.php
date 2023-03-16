@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class DeliverySlipResource extends JsonResource
+class DeliveryContentResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,8 +16,9 @@ class DeliverySlipResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'customer_id' => $this->customer_id,
-            'publish_date' => $this->publish_date,
+            'delivery_slip_id' => $this->delivery_slip_id,
+            'product_id' => $this->product_id,
+            'quantity' => $this->quantity,
         ];
     }
 }

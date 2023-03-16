@@ -17,14 +17,10 @@ return new class extends Migration
             $table->id();
             $table
                 ->foreignId("customer_id")
-                ->constrained()
-                ->onUpdate("cascade")
-                ->onDelete("cascade");
+                ->constrained();
             $table
                 ->foreignId("product_id")
-                ->constrained()
-                ->onUpdate("cascade")
-                ->onDelete("cascade");
+                ->constrained();
             $table->decimal("price", 8, 1);
             $table->timestamps();
         });

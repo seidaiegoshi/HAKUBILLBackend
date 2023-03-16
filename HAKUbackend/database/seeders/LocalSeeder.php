@@ -8,7 +8,8 @@ use App\Models\DeliveryContent;
 use App\Models\DeliverySlip;
 use App\Models\Invoice;
 use App\Models\InvoiceContent;
-use App\Models\Product;;
+use App\Models\Product;
+use App\Models\ProductCategory;;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -22,7 +23,17 @@ class LocalSeeder extends Seeder
      */
     public function run()
     {
-        Product::factory()->count(10)->create();
+        $categories = ProductCategory::factory()->count(4)->create();
+
+        //各カテゴリ5商品ずつ登録
+        foreach ($categories as $category) {
+            Product::factory()
+                ->count(5)
+                ->create([
+                    'product_category_id' => $category->id,
+                ]);
+        }
+
         Customer::factory()->count(10)->create();
         CustomerPrice::factory()->count(10)->create();
         DeliverySlip::factory()->count(10)->create();

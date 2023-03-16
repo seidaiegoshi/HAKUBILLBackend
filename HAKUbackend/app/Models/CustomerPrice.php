@@ -9,9 +9,15 @@ class CustomerPrice extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        "customer_id",
-        "product_id",
-        "price",
+    // protected $fillable = [
+    //     "customer_id",
+    //     "product_id",
+    //     "price",
+    // ];
+
+    protected $guarded = [
+        "id",
+        "created_at",
+        "updated_at",
     ];
 }

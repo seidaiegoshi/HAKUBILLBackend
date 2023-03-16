@@ -9,10 +9,16 @@ class InvoiceContent extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        "invoice_id",
-        "product_id",
-        "quantity",
+    // protected $fillable = [
+    //     "invoice_id",
+    //     "product_id",
+    //     "quantity",
+    // ];
+
+    protected $guarded = [
+        "id",
+        "created_at",
+        "updated_at",
     ];
 
     public function invoice()

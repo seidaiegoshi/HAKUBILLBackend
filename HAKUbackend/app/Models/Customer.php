@@ -9,14 +9,20 @@ class Customer extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        "company_name",
-        "honorific",
-        "post",
-        "post_code",
-        "address",
-        "telephone_number",
-        "fax_number"
+    // protected $fillable = [
+    //     "company_name",
+    //     "honorific",
+    //     "post",
+    //     "post_code",
+    //     "address",
+    //     "telephone_number",
+    //     "fax_number"
+    // ];
+
+    protected $guarded = [
+        "id",
+        "created_at",
+        "updated_at",
     ];
 
     public function products()

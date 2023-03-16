@@ -5,13 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Invoice extends Model
+class ProductCategory extends Model
 {
     use HasFactory;
 
     // protected $fillable = [
-    //     "customer_id",
-    //     "publish_date",
+    //     "name"
     // ];
 
     protected $guarded = [
@@ -20,12 +19,8 @@ class Invoice extends Model
         "updated_at",
     ];
 
-    public function customer()
+    public function products()
     {
-        return $this->belongsTo(Customer::class);
-    }
-    public function invoice_contents()
-    {
-        return $this->hasMany(InvoiceContent::class);
+        return $this->hasMany(Product::class);
     }
 }

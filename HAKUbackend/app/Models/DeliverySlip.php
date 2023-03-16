@@ -9,9 +9,15 @@ class DeliverySlip extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        "customer_id",
-        "publish_date",
+    // protected $fillable = [
+    //     "customer_id",
+    //     "publish_date",
+    // ];
+
+    protected $guarded = [
+        "id",
+        "created_at",
+        "updated_at",
     ];
 
     public function customer()
