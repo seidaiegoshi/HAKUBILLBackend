@@ -2,9 +2,9 @@ name: sakura
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "main","develip" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "main","develip" ]
 
 jobs:
   build:
