@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('customers', function (Blueprint $table) {
             $table->id();
-            $table->string("company_name")->comment("取引先名");
+            $table->string("name")->comment("取引先名");
             $table->string("honorific")->comment("敬称");
             $table->string("post")->nullable()->comment("部署名");
             $table->char("post_code", 7)->nullable()->comment("郵便番号");
@@ -24,7 +24,7 @@ return new class extends Migration
             $table->char("fax_number", 14)->nullable()->comment("FAX番号");
             $table->timestamps();
 
-            $table->index("company_name");
+            $table->index("name");
         });
     }
 

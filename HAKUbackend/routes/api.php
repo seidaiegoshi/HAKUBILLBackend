@@ -37,6 +37,7 @@ Route::prefix("customer")
     ->name("customer.")
     ->group(function () {
         Route::get("", [CustomerController::class, "index"])->name("index");
+        Route::get("/{word}", [CustomerController::class, "search"])->name("search");
         Route::post("", [CustomerController::class, "store"])->name("store");
     });
 

@@ -20,6 +20,8 @@ class DeliveryContentFactory extends Factory
             "delivery_slip_id" => \App\Models\DeliverySlip::all()->random(1)[0]->id,
             "product_id" => \App\Models\Product::all()->random(1)[0]->id,
             "quantity" => fake()->randomFloat(7, 1, 50),
+            "price" => fake()->randomFloat(7, 1, 50),
+            "gross_profit" => fake()->randomFloat(7, 1, 50),
         ];
     }
 }
