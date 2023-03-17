@@ -19,6 +19,8 @@ class DeliveryContentResource extends JsonResource
             'delivery_slip_id' => $this->delivery_slip_id,
             'product_id' => $this->product_id,
             'quantity' => $this->quantity,
+            'price' => $this->price,
+            'gross_profit' => $this->gross_profit,
         ];
     }
 }
