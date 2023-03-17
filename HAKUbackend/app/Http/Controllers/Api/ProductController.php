@@ -35,7 +35,7 @@ class ProductController extends Controller
     }
 
     /**
-     * ある期間の商品の販売数一覧を取得する
+     * ある期間の商品の販売数と粗利一覧を取得する
      *
      * @param  string  $from
      * @param  string  $to
@@ -45,10 +45,13 @@ class ProductController extends Controller
     {
         $toDate  = date($to, strtotime("1 day")); //期間指定用に1日分追加
 
-        $sumQuantity = DeliveryContent::query()->leftJoin("delivery_slips", "delivery_contents.delivery_slip_id", "=", "delivery_slips.id")->select("delivery_contents.product_id")->whereBetween('delivery_slips.publish_date', [$from, $toDate])->selectRaw("SUM(delivery_contents.quantity) AS sum_quantity")->groupBy("delivery_contents.product_id")->with("product")->get();
+        $sumQuantity = DeliveryContent::query()->leftJoin("delivery_slips", "delivery_contents.delivery_slip_id", "=", "delivery_slips.id")->select("delivery_contents.product_id")->whereBetween('delivery_slips.publish_date', [$from, $toDate])->selectRaw("SUM(delivery_contents.quantity) AS sum_quantity")->selectRaw("SUM(delivery_contents.gross_profit) AS sum_gross_profit")->groupBy("delivery_contents.product_id")->with("product")->get();
 
         return $sumQuantity;
     }
+
+
+
 
     /**
      * Show the form for creating a new resource.

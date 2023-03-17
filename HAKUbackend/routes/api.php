@@ -32,7 +32,6 @@ Route::prefix("product")
         Route::post("", [ProductController::class, "store"])->name("store");
     });
 
-
 Route::prefix("customer")
     ->name("customer.")
     ->group(function () {
@@ -46,6 +45,7 @@ Route::prefix("delivery_slip")
     ->group(function () {
         Route::get("", [DeliverySlipController::class, "index"])->name("index");
         Route::get("/{id}", [DeliverySlipController::class, "show"])->name("show");
+        Route::get("/daily_profit/{from}/{to}", [DeliverySlipController::class, "daily_profit"])->name("daily_profit");
         Route::post("", [DeliverySlipController::class, "store"])->name("store");
         Route::post("/contents", [DeliverySlipController::class, "contents"])->name("contents");
     });
@@ -54,8 +54,6 @@ Route::prefix("invoice")
     ->name("invoice.")
     ->group(function () {
         Route::get("", [InvoiceController::class, "index"])->name("index");
-
         Route::get("/{id}", [InvoiceController::class, "show"])->name("show");
-
         Route::post("", [InvoiceController::class, "store"])->name("store");
     });

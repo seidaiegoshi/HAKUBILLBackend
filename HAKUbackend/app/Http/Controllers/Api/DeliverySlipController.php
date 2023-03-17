@@ -50,7 +50,7 @@ class DeliverySlipController extends Controller
         return new DeliverySlipResource($ds);
     }
 
-
+    // 納品書のコンテンツを登録する
     public function contents(Request $request)
     {
         $contentsArray = [];
@@ -76,6 +76,17 @@ class DeliverySlipController extends Controller
     {
         $ds = DeliverySlip::find($id)->delivery_contents()->get();
         return $ds;
+    }
+
+
+    // 指定期間の日付毎の粗利を取得する
+    public function daily_profit($from, $to)
+    {
+        $toDate  = date($to, strtotime("1 day")); //期間指定用に1日分追加
+
+        $profit = DeliverySlip::query()->leftJoin("delivery_contents", "delivery_contents.delivery_slip_id", "=", "delivery_slips.id")->select("delivery_slips.publish_date")->whereBetween('delivery_slips.publish_date', [$from, $toDate])->selectRaw("SUM(delivery_contents.gross_profit) AS sum_gross_profit")->groupBy("delivery_slips.publish_date")->havingRaw("sum_gross_profit IS NOT NULL")->get();
+
+        return $profit;
     }
 
     /**
