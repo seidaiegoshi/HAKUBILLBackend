@@ -20,6 +20,7 @@ class InvoiceContentFactory extends Factory
             "invoice_id" => \App\Models\Invoice::all()->random(1)[0]->id,
             "product_id" => \App\Models\Product::all()->random(1)[0]->id,
             "quantity" => fake()->randomFloat(7, 1, 50),
+            "price" => fake()->randomFloat(7, 1, 50),
         ];
     }
 }
