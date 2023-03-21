@@ -6,6 +6,7 @@ use App\Models\Customer;
 use App\Models\CustomerPrice;
 use App\Models\DeliveryContent;
 use App\Models\DeliverySlip;
+use App\Models\FixedCost;
 use App\Models\Invoice;
 use App\Models\InvoiceContent;
 use App\Models\Product;
@@ -40,5 +41,6 @@ class LocalSeeder extends Seeder
         DeliveryContent::factory()->count(300)->create();
         Invoice::factory()->count(10)->create();
         InvoiceContent::factory()->count(10)->create();
+        FixedCost::factory()->count(10)->create();
     }
 }
