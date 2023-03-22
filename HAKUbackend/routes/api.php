@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\CustomerController;
 use App\Http\Controllers\Api\DeliverySlipController;
+use App\Http\Controllers\Api\FixedCostController;
 use App\Http\Controllers\Api\InvoiceController;
 use App\Http\Controllers\Api\ProductController;
 use Illuminate\Http\Request;
@@ -44,6 +45,7 @@ Route::prefix("delivery_slip")
     ->name("delivery_slip.")
     ->group(function () {
         Route::get("", [DeliverySlipController::class, "index"])->name("index");
+        Route::get("/create", [DeliverySlipController::class, "create"])->name("create");
         Route::get("/{id}", [DeliverySlipController::class, "show"])->name("show");
         Route::get("/daily_profit/{from}/{to}", [DeliverySlipController::class, "daily_profit"])->name("daily_profit");
         Route::post("", [DeliverySlipController::class, "store"])->name("store");
@@ -56,4 +58,12 @@ Route::prefix("invoice")
         Route::get("", [InvoiceController::class, "index"])->name("index");
         Route::get("/{id}", [InvoiceController::class, "show"])->name("show");
         Route::post("", [InvoiceController::class, "store"])->name("store");
+    });
+
+
+Route::prefix("fixed_cost")
+    ->name("fixed_cost.")
+    ->group(function () {
+        Route::get("", [FixedCostController::class, "index"])->name("index");
+        Route::post("", [FixedCostController::class, "store"])->name("store");
     });
