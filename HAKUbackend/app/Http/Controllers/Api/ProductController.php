@@ -19,13 +19,10 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $channels = Product::orderBy('created_at', 'desc')
+        $products = Product::join('product_categories', 'products.product_category_id', '=', 'product_categories.id')->select("products.*", "product_categories.name as category_name")->orderBy('created_at', 'desc')
             ->get();
 
-        return ProductResource::collection($channels);
-        // return response()->json([
-        //     $channels
-        // ]);
+        return $products;
     }
 
     public function categories()
