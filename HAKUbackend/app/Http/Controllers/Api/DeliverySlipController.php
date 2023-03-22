@@ -32,7 +32,8 @@ class DeliverySlipController extends Controller
      */
     public function create()
     {
-        //
+        $latestId = DeliverySlip::latest('id')->first()->id;
+        return $latestId;
     }
 
     /**
