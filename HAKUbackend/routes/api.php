@@ -27,10 +27,13 @@ Route::prefix("product")
     ->name("product.")
     ->group(function () {
         Route::get("", [ProductController::class, "index"])->name("index");
-        Route::get("/categories", [ProductController::class, "categories"])->name("categories");
+        Route::post("", [ProductController::class, "store"])->name("store");
+        Route::get("/category", [ProductController::class, "category"])->name("category");
+        Route::post("/category", [ProductController::class, "storeCategory"])->name("storeCategory");
+        Route::get("/groupByCategories", [ProductController::class, "productsByCategory"])->name("productsByCategory");
+        Route::get("/groupByCategory/{category_id}", [ProductController::class, "productsByCategoryId"])->name("productsByCategoryId");
         Route::get("/{id}", [ProductController::class, "show"])->name("show");
         Route::get("/sales/{from}/{to}", [ProductController::class, "sales"])->name("sales");
-        Route::post("", [ProductController::class, "store"])->name("store");
     });
 
 Route::prefix("customer")

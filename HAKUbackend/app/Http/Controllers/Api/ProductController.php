@@ -8,6 +8,7 @@ use App\Models\DeliveryContent;
 use App\Models\Product;
 use App\Models\ProductCategory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 
 class ProductController extends Controller
@@ -25,9 +26,25 @@ class ProductController extends Controller
         return $products;
     }
 
-    public function categories()
+    // カテゴリ毎のプロダクトを返す
+    public function productsByCategory()
     {
+
         $categories = ProductCategory::with("products")->get();
+        return $categories;
+    }
+
+    //指定したカテゴリIDのプロダクトを返す
+    public function productsByCategoryId($category_id)
+    {
+        $categories =
+            Product::where('products.product_category_id', $category_id)->get();
+        return $categories;
+    }
+
+    public function category()
+    {
+        $categories = ProductCategory::orderBy('created_at', 'desc')->get();
         return $categories;
     }
 
@@ -67,6 +84,8 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
+
+        Log::debug($request);
         $product = Product::create([
             "name" => $request->input("name"),
             "product_category_id" => $request->input("product_category_id"),
@@ -76,9 +95,21 @@ class ProductController extends Controller
             $request->input("tax_class"),
             "price" =>
             $request->input("price"),
+            "gross_profit" =>
+            $request->input("gross_profit"),
+            "gross_rate" =>
+            $request->input("gross_rate"),
         ]);
 
         return new ProductResource($product);
+    }
+
+    public function storeCategory(Request $request)
+    {
+        $category = ProductCategory::create([
+            "name" => $request->input("name"),
+        ]);
+        return $category;
     }
 
     /**
