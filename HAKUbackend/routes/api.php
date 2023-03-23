@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\AnalysisController;
 use App\Http\Controllers\Api\CustomerController;
 use App\Http\Controllers\Api\DeliverySlipController;
 use App\Http\Controllers\Api\FixedCostController;
@@ -26,14 +27,20 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
 Route::prefix("product")
     ->name("product.")
     ->group(function () {
+        // 商品一覧
         Route::get("", [ProductController::class, "index"])->name("index");
+        // 商品を登録
         Route::post("", [ProductController::class, "store"])->name("store");
+        // カテゴリ一覧
         Route::get("/category", [ProductController::class, "category"])->name("category");
+        // カテゴリを登録
         Route::post("/category", [ProductController::class, "storeCategory"])->name("storeCategory");
+        // カテゴリ毎の商品一覧
         Route::get("/groupByCategories", [ProductController::class, "productsByCategory"])->name("productsByCategory");
+        // 指定カテゴリの商品一覧
         Route::get("/groupByCategory/{category_id}", [ProductController::class, "productsByCategoryId"])->name("productsByCategoryId");
+        // 特定商品を表示
         Route::get("/{id}", [ProductController::class, "show"])->name("show");
-        Route::get("/sales/{from}/{to}", [ProductController::class, "sales"])->name("sales");
     });
 
 Route::prefix("customer")
@@ -50,7 +57,7 @@ Route::prefix("delivery_slip")
         Route::get("", [DeliverySlipController::class, "index"])->name("index");
         Route::get("/create", [DeliverySlipController::class, "create"])->name("create");
         Route::get("/{id}", [DeliverySlipController::class, "show"])->name("show");
-        Route::get("/daily_profit/{from}/{to}", [DeliverySlipController::class, "daily_profit"])->name("daily_profit");
+
         Route::post("", [DeliverySlipController::class, "store"])->name("store");
         Route::post("/contents", [DeliverySlipController::class, "contents"])->name("contents");
     });
@@ -69,4 +76,11 @@ Route::prefix("fixed_cost")
     ->group(function () {
         Route::get("", [FixedCostController::class, "index"])->name("index");
         Route::post("", [FixedCostController::class, "store"])->name("store");
+    });
+
+Route::prefix("analysis")
+    ->name("analysis.")
+    ->group(function () {
+        Route::get("/sales/{from}/{to}", [AnalysisController::class, "sales"])->name("sales");
+        Route::get("/daily_profit/{from}/{to}", [AnalysisController::class, "daily_profit"])->name("daily_profit");
     });
