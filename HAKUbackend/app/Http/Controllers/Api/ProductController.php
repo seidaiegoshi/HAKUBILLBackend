@@ -138,7 +138,22 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $data = Product::findOrFail($id);
+        $data->update([
+            "name" => $request->input("name"),
+            "product_category_id" => $request->input("product_category_id"),
+            "cost" => $request->input("cost"),
+            "unit" => $request->input("unit"),
+            "tax_class" =>
+            $request->input("tax_class"),
+            "price" =>
+            $request->input("price"),
+            "gross_profit" =>
+            $request->input("gross_profit"),
+            "gross_rate" =>
+            $request->input("gross_rate"),
+        ]);
+        return $data;
     }
     /**
      * Update the specified resource in storage.
@@ -149,7 +164,6 @@ class ProductController extends Controller
      */
     public function updateCategory(Request $request, $id)
     {
-        Log::debug($request->all());
         $data = ProductCategory::findOrFail($id);
         $data->update([
             'name' => $request->input('name'),
@@ -176,7 +190,7 @@ class ProductController extends Controller
      */
     public function destroyCategory($id)
     {
-        $product = ProductCategory::find($id);
-        $product->delete();
+        $category = ProductCategory::find($id);
+        $category->delete();
     }
 }

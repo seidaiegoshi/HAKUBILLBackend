@@ -34,6 +34,7 @@ Route::prefix("product")
         Route::get("/groupByCategory/{category_id}", [ProductController::class, "productsByCategoryId"])->name("productsByCategoryId");
 
         Route::get("/{id}", [ProductController::class, "show"])->name("show");
+        Route::patch("/{id}", [ProductController::class, "update"])->name("update");
         Route::delete("/{id}", [ProductController::class, "destroy"])->name("destroy");
     });
 
@@ -81,6 +82,10 @@ Route::prefix("fixed_cost")
     ->group(function () {
         Route::get("", [FixedCostController::class, "index"])->name("index");
         Route::post("", [FixedCostController::class, "store"])->name("store");
+
+        Route::get("/{id}", [FixedCostController::class, "show"])->name("show");
+        Route::patch("/{id}", [FixedCostController::class, "update"])->name("update");
+        Route::delete("/{id}", [FixedCostController::class, "destroy"])->name("destroy");
     });
 
 Route::prefix("analysis")

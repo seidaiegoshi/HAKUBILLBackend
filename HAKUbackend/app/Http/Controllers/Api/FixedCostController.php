@@ -19,7 +19,7 @@ class FixedCostController extends Controller
         $fc = FixedCost::orderBy("created_at", "desc")
             ->get();
 
-        return FixedCostResource::collection($fc);
+        return $fc;
     }
 
     /**
@@ -56,7 +56,8 @@ class FixedCostController extends Controller
      */
     public function show($id)
     {
-        //
+        $fixedCost = FixedCost::find($id);
+        return $fixedCost;
     }
 
     /**
@@ -79,7 +80,13 @@ class FixedCostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $data = FixedCost::findOrFail($id);
+        $data->update([
+            "name" => $request->input("name"),
+            "price" =>
+            $request->input("price"),
+        ]);
+        return $data;
     }
 
     /**
@@ -90,6 +97,7 @@ class FixedCostController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $fixed_cost = FixedCost::find($id);
+        $fixed_cost->delete();
     }
 }
