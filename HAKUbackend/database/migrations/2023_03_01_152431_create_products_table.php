@@ -24,6 +24,7 @@ return new class extends Migration
             $table->decimal("gross_profit", 8, 1,)->comment("粗利");
             $table->decimal("gross_rate", 8, 1,)->comment("粗利率");
 
+            $table->softDeletes();
             $table->timestamps();
 
             $table->index("name");

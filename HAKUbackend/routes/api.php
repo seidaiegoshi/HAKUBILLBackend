@@ -27,20 +27,25 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
 Route::prefix("product")
     ->name("product.")
     ->group(function () {
-        // 商品一覧
         Route::get("", [ProductController::class, "index"])->name("index");
-        // 商品を登録
         Route::post("", [ProductController::class, "store"])->name("store");
-        // カテゴリ一覧
-        Route::get("/category", [ProductController::class, "category"])->name("category");
-        // カテゴリを登録
-        Route::post("/category", [ProductController::class, "storeCategory"])->name("storeCategory");
-        // カテゴリ毎の商品一覧
+
         Route::get("/groupByCategories", [ProductController::class, "productsByCategory"])->name("productsByCategory");
-        // 指定カテゴリの商品一覧
         Route::get("/groupByCategory/{category_id}", [ProductController::class, "productsByCategoryId"])->name("productsByCategoryId");
-        // 特定商品を表示
+
         Route::get("/{id}", [ProductController::class, "show"])->name("show");
+        Route::delete("/{id}", [ProductController::class, "destroy"])->name("destroy");
+    });
+
+Route::prefix("category")
+    ->name("category.")
+    ->group(function () {
+        Route::get("", [ProductController::class, "categoryIndex"])->name("categoryIndex");
+        Route::post("", [ProductController::class, "storeCategory"])->name("storeCategory");
+
+        Route::get("/{id}", [ProductController::class, "categoryShow"])->name("categoryShow");
+        Route::patch("/{id}", [ProductController::class, "updateCategory"])->name("updateCategory");
+        Route::delete("/{id}", [ProductController::class, "destroyCategory"])->name("destroyCategory");
     });
 
 Route::prefix("customer")

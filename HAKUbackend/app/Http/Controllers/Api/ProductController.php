@@ -8,7 +8,7 @@ use App\Models\DeliveryContent;
 use App\Models\Product;
 use App\Models\ProductCategory;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Log;
 
 class ProductController extends Controller
 {
@@ -40,9 +40,9 @@ class ProductController extends Controller
         return $categories;
     }
 
-    public function category()
+    public function categoryIndex()
     {
-        $categories = ProductCategory::orderBy('created_at', 'desc')->get();
+        $categories = ProductCategory::all();
         return $categories;
     }
 
@@ -85,6 +85,8 @@ class ProductController extends Controller
 
     public function storeCategory(Request $request)
     {
+        Log::debug($request->all());
+
         $category = ProductCategory::create([
             "name" => $request->input("name"),
         ]);
@@ -100,6 +102,17 @@ class ProductController extends Controller
     public function show($id)
     {
         $product = Product::find($id);
+        return $product;
+    }
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function categoryShow($id)
+    {
+        $product = ProductCategory::find($id);
         return $product;
     }
 
@@ -127,6 +140,22 @@ class ProductController extends Controller
     {
         //
     }
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function updateCategory(Request $request, $id)
+    {
+        Log::debug($request->all());
+        $data = ProductCategory::findOrFail($id);
+        $data->update([
+            'name' => $request->input('name'),
+        ]);
+        return $data;
+    }
 
     /**
      * Remove the specified resource from storage.
@@ -137,6 +166,17 @@ class ProductController extends Controller
     public function destroy($id)
     {
         $product = Product::find($id);
+        $product->delete();
+    }
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroyCategory($id)
+    {
+        $product = ProductCategory::find($id);
         $product->delete();
     }
 }
