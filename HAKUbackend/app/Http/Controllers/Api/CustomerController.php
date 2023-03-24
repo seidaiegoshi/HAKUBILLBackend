@@ -41,7 +41,7 @@ class CustomerController extends Controller
     public function store(Request $request)
     {
         $product = Customer::create([
-            "company_name" => $request->input("company_name"),
+            "name" => $request->input("name"),
             "honorific" => $request->input("honorific"),
             "post" => $request->input("post"),
             "post_code" =>
@@ -65,6 +65,12 @@ class CustomerController extends Controller
     public function show($id)
     {
         //
+    }
+
+    public function search($word)
+    {
+        $result = Customer::query()->where("name", "like", "%$word%")->get();
+        return $result;
     }
 
     /**

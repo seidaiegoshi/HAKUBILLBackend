@@ -13,11 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('product_categories', function (Blueprint $table) {
+        Schema::create('fixed_costs', function (Blueprint $table) {
             $table->id();
-            $table->string("name")->unique();
+            $table->string("name");
+            $table->decimal("price");
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('product_categories');
+        Schema::dropIfExists('fixed_costs');
     }
 };

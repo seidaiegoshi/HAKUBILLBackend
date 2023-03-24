@@ -3,14 +3,11 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\DeliveryContentResource;
-use App\Http\Resources\DeliverySlipResource;
-use App\Models\DeliveryContent;
-use App\Models\DeliverySlip;
+use App\Http\Resources\FixedCostResource;
+use App\Models\FixedCost;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 
-class DeliverySlipController extends Controller
+class FixedCostController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,10 +16,10 @@ class DeliverySlipController extends Controller
      */
     public function index()
     {
-        $ds = DeliverySlip::orderBy("created_at", "desc")
+        $fc = FixedCost::orderBy("created_at", "desc")
             ->get();
 
-        return DeliverySlipResource::collection($ds);
+        return FixedCostResource::collection($fc);
     }
 
     /**
@@ -32,8 +29,7 @@ class DeliverySlipController extends Controller
      */
     public function create()
     {
-        $latestId = DeliverySlip::latest('id')->first()->id;
-        return $latestId;
+        //
     }
 
     /**
@@ -44,27 +40,12 @@ class DeliverySlipController extends Controller
      */
     public function store(Request $request)
     {
-        $ds = DeliverySlip::create([
-            "customer_id" => $request->input("customer_id"),
-            "publish_date" => $request->input("publish_date"),
+        $fixed_cost = FixedCost::create([
+            "name" => $request->input("name"),
+            "price" => $request->input("price"),
         ]);
-        return new DeliverySlipResource($ds);
-    }
 
-    // 納品書のコンテンツを登録する
-    public function contents(Request $request)
-    {
-        $contentsArray = [];
-
-        foreach ($request->all() as $key => $arr) {
-            $content = new DeliveryContent;
-            foreach ($arr as $key => $value) {
-                $content->$key = $value;
-            }
-            $content->save();
-            array_push($contentsArray, $content);
-        }
-        return $contentsArray;
+        return new FixedCostResource($fixed_cost);
     }
 
     /**
@@ -75,12 +56,8 @@ class DeliverySlipController extends Controller
      */
     public function show($id)
     {
-        $ds = DeliverySlip::find($id)->delivery_contents()->get();
-        return $ds;
+        //
     }
-
-
-
 
     /**
      * Show the form for editing the specified resource.

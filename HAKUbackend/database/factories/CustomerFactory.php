@@ -17,7 +17,7 @@ class CustomerFactory extends Factory
     public function definition()
     {
         return [
-            "company_name" => fake()->company(),
+            "name" => fake()->company(),
             "honorific" => fake()->randomElement(["様", "御中"]),
             "post" => fake()->streetAddress(),
             "post_code" => fake()->postcode(),

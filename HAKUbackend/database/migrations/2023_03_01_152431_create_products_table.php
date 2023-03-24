@@ -21,6 +21,10 @@ return new class extends Migration
             $table->string("unit")->comment("単位");
             $table->integer("tax_class");
             $table->decimal("price", 8, 1,)->comment("販売価格(デフォルト)");
+            $table->decimal("gross_profit", 8, 1,)->comment("粗利");
+            $table->decimal("gross_rate", 8, 1,)->comment("粗利率");
+
+            $table->softDeletes();
             $table->timestamps();
 
             $table->index("name");

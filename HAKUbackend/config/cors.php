@@ -17,7 +17,7 @@ return [
 
     'paths' => ['api/*'],
 
-    'allowed_methods' => ['GET,POST,DELETE,PUT'],
+    'allowed_methods' => ['GET,POST,DELETE,PUT,PATCH'],
 
     'allowed_origins' => [env('FRONTEND_URL'), env('FRONTEND_URL_DEV')],
 

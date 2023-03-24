@@ -18,7 +18,7 @@ class DeliverySlipFactory extends Factory
     {
         return [
             "customer_id" => \App\Models\Customer::all()->random(1)[0]->id,
-            "publish_date" => fake()->date(),
+            "publish_date" => fake()->dateTimeBetween($startDate = '-60 days', $endDate = 'now'),
         ];
     }
 }
