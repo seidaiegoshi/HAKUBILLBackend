@@ -55,6 +55,8 @@ Route::prefix("customer")
         Route::get("", [CustomerController::class, "index"])->name("index");
         Route::get("/{word}", [CustomerController::class, "search"])->name("search");
         Route::post("", [CustomerController::class, "store"])->name("store");
+
+        Route::get("/{id}/products", [CustomerController::class, "showCustomerProducts"])->name("showCustomerProducts");
     });
 
 Route::prefix("delivery_slip")

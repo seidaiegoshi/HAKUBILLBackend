@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CustomerResource;
 use App\Models\Customer;
+use App\Models\CustomerPrice;
 use Illuminate\Http\Request;
 
 class CustomerController extends Controller
@@ -65,6 +66,20 @@ class CustomerController extends Controller
     public function show($id)
     {
         //
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function showCustomerProducts($customerId)
+    {
+        // $customerProducts = CustomerPrice::with("products")->get();
+        $customerProducts = CustomerPrice::query()->leftJoin("products", "customer_prices.product_id", "=", "products.id")->select("customer_prices.*", "products.name", "products.cost", "products.unit", "products.tax_class")->where("customer_prices.customer_id", $customerId)->get();
+
+        return $customerProducts;
     }
 
     public function search($word)

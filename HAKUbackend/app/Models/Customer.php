@@ -39,4 +39,8 @@ class Customer extends Model
     {
         return $this->hasMany(Invoice::class);
     }
+    public function customer_prices()
+    {
+        return $this->belongsToMany(CustomerPrice::class);
+    }
 }
