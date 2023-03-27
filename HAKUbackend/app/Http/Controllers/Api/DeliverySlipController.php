@@ -5,10 +5,13 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\DeliveryContentResource;
 use App\Http\Resources\DeliverySlipResource;
+use App\Models\CustomerPrice;
 use App\Models\DeliveryContent;
 use App\Models\DeliverySlip;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
 
 class DeliverySlipController extends Controller
 {
@@ -44,46 +47,51 @@ class DeliverySlipController extends Controller
      */
     public function store(Request $request)
     {
-
         Log::debug($request->all());
-        $ds = DeliverySlip::create([
-            "customer_id" => $request->input("customer_id"),
-            "publish_date" => $request->input("publish_date"),
-        ]);
+        DB::transaction(
+            function () use ($request) {
+                $customer_id = $request->input("customer_id");
 
-        foreach ($request["contents"] as $itemData) {
-            $content = new DeliveryContent();
-            $content->delivery_slip_id = $ds->id;
-            $content->product_id = $itemData["product_id"];
-            $content->product_name = $itemData["product_name"];
-            $content->unit = $itemData["unit"];
-            $content->cost = $itemData["cost"];
-            $content->price = $itemData["price"];
-            $content->quantity = $itemData["quantity"];
-            $content->gross_profit = $itemData["gross_profit"];
-            $content->subtotal = $itemData["subtotal"];
-            $content->subtotal_gross_profit = $itemData["subtotal_gross_profit"];
-            $content->save();
-        }
+                $ds = DeliverySlip::create([
+                    "customer_id" => $customer_id,
+                    "customer_name" => $request->input("customer_name"),
+                    "customer_address" => $request->input("customer_address"),
+                    "publish_date" => $request->input("publish_date"),
+                    "total_price" => $request->input("total_price"),
+                ]);
 
-        return new DeliverySlipResource($ds);
-    }
+                foreach ($request["contents"] as $itemData) {
+                    $product_id = $itemData["product_id"];
+                    // CustomerPriceに登録されてなくて、金額がデフォルトじゃなかったら登録する。
+                    $isNewCustomerPrice = CustomerPrice::where("customer_id", $customer_id)->where("product_id", $product_id)->first();
+                    Log::debug($product_id);
+                    $defaultPrice = Product::find($product_id)->price;
+                    if (!$isNewCustomerPrice  && ($itemData["price"] !== $defaultPrice)) {
+                        CustomerPrice::create([
+                            "customer_id" => $customer_id,
+                            "product_id" => $product_id,
+                            "price" => $itemData["price"],
+                        ]);
+                    }
 
-    // 納品書のコンテンツを登録する
-    public function contents(Request $request)
-    {
-        $contentsArray = [];
-
-        foreach ($request->all() as $key => $arr) {
-            $content = new DeliveryContent;
-            foreach ($arr as $key => $value) {
-                $content->$key = $value;
+                    $content = new DeliveryContent();
+                    $content->delivery_slip_id = $ds->id;
+                    $content->product_id = $product_id;
+                    $content->product_name = $itemData["product_name"];
+                    $content->unit = $itemData["unit"];
+                    $content->cost = $itemData["cost"];
+                    $content->price = $itemData["price"];
+                    $content->quantity = $itemData["quantity"];
+                    $content->gross_profit = $itemData["gross_profit"];
+                    $content->subtotal = $itemData["subtotal"];
+                    $content->subtotal_gross_profit = $itemData["subtotal_gross_profit"];
+                    $content->save();
+                }
             }
-            $content->save();
-            array_push($contentsArray, $content);
-        }
-        return $contentsArray;
+        );
+        // return new DeliverySlipResource($ds);
     }
+
 
     /**
      * Display the specified resource.

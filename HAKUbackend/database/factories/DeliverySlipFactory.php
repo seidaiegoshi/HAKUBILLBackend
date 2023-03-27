@@ -16,9 +16,13 @@ class DeliverySlipFactory extends Factory
      */
     public function definition()
     {
+        $customer = \App\Models\Customer::all()->random(1)[0];
         return [
-            "customer_id" => \App\Models\Customer::all()->random(1)[0]->id,
+            "customer_id" => $customer->id,
+            "customer_name" => $customer->name,
+            "customer_address" => $customer->address,
             "publish_date" => fake()->dateTimeBetween($startDate = '-60 days', $endDate = 'now'),
+            "total_price" => fake()->randomFloat(7, 1, 50),
         ];
     }
 }

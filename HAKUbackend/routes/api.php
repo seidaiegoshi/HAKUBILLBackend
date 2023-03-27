@@ -67,7 +67,6 @@ Route::prefix("delivery_slip")
         Route::get("/{id}", [DeliverySlipController::class, "show"])->name("show");
 
         Route::post("", [DeliverySlipController::class, "store"])->name("store");
-        Route::post("/contents", [DeliverySlipController::class, "contents"])->name("contents");
     });
 
 Route::prefix("invoice")
