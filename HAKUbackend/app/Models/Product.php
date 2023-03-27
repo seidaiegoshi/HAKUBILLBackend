@@ -36,6 +36,6 @@ class Product extends Model
     }
     public function customer_prices()
     {
-        return $this->belongsToMany(CustomerPrice::class);
+        return $this->hasMany(CustomerPrice::class);
     }
 }

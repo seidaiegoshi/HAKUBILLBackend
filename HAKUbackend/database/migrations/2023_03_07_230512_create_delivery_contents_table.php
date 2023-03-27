@@ -17,9 +17,14 @@ return new class extends Migration
             $table->id();
             $table->foreignId("delivery_slip_id")->constrained();
             $table->foreignId("product_id")->constrained();
-            $table->decimal("quantity", 8, 1);
-            $table->decimal("price");
-            $table->decimal("gross_profit");
+            $table->string("product_name");
+            $table->string("unit");
+            $table->decimal("price", 8, 2);
+            $table->decimal("cost", 8, 2);
+            $table->decimal("quantity", 8, 2);
+            $table->decimal("gross_profit", 8, 2);
+            $table->decimal("subtotal", 8, 2);
+            $table->decimal("subtotal_gross_profit", 8, 2);
             $table->timestamps();
         });
     }

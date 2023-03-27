@@ -44,10 +44,28 @@ class DeliverySlipController extends Controller
      */
     public function store(Request $request)
     {
+
+        Log::debug($request->all());
         $ds = DeliverySlip::create([
             "customer_id" => $request->input("customer_id"),
             "publish_date" => $request->input("publish_date"),
         ]);
+
+        foreach ($request["contents"] as $itemData) {
+            $content = new DeliveryContent();
+            $content->delivery_slip_id = $ds->id;
+            $content->product_id = $itemData["product_id"];
+            $content->product_name = $itemData["product_name"];
+            $content->unit = $itemData["unit"];
+            $content->cost = $itemData["cost"];
+            $content->price = $itemData["price"];
+            $content->quantity = $itemData["quantity"];
+            $content->gross_profit = $itemData["gross_profit"];
+            $content->subtotal = $itemData["subtotal"];
+            $content->subtotal_gross_profit = $itemData["subtotal_gross_profit"];
+            $content->save();
+        }
+
         return new DeliverySlipResource($ds);
     }
 

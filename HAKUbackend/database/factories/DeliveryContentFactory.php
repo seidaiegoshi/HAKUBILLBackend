@@ -16,12 +16,25 @@ class DeliveryContentFactory extends Factory
      */
     public function definition()
     {
+        $product_id = \App\Models\Product::all()->random(1)[0]->id;
+        $cost = \App\Models\Product::find($product_id)->cost;
+        $quantity = fake()->randomFloat(7, 1, 50);
+        $price = \App\Models\Product::find($product_id)->price;
+        $gross_profit = $price - $cost;
+        $subtotal = $quantity * $price;
+        $subtotal_gross_profit = $gross_profit * $quantity;
+
         return [
             "delivery_slip_id" => \App\Models\DeliverySlip::all()->random(1)[0]->id,
-            "product_id" => \App\Models\Product::all()->random(1)[0]->id,
-            "quantity" => fake()->randomFloat(7, 1, 50),
-            "price" => fake()->randomFloat(7, 1, 50),
-            "gross_profit" => fake()->randomFloat(7, 1, 50),
+            "product_id" => $product_id,
+            "product_name" => \App\Models\Product::find($product_id)->name,
+            "unit" => \App\Models\Product::find($product_id)->unit,
+            "price" => $price,
+            "cost" => $cost,
+            "quantity" => $quantity,
+            "gross_profit" => $gross_profit,
+            "subtotal" => $subtotal,
+            "subtotal_gross_profit" => $subtotal_gross_profit,
         ];
     }
 }
