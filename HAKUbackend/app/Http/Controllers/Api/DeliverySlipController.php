@@ -22,10 +22,13 @@ class DeliverySlipController extends Controller
      */
     public function index()
     {
-        $ds = DeliverySlip::orderBy("created_at", "desc")
+        // $ds = DeliverySlip::orderBy("created_at", "desc")
+        $ds = DeliverySlip::with("delivery_contents")
+            ->orderBy("created_at", "desc")
             ->get();
 
-        return DeliverySlipResource::collection($ds);
+        return response()->json($ds);
+        // return DeliverySlipResource::collection($ds);
     }
 
     /**
