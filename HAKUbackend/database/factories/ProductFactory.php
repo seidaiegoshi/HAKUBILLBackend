@@ -17,16 +17,15 @@ class ProductFactory extends Factory
     public function definition()
     {
         $price = fake()->randomFloat(7, 10, 10000);
-        $cost = fake()->randomFloat(7, 10, 10000);
+        $cost = $price * 0.3;
         $gross_profit = $price - $cost;
         $gross_rate = $gross_profit / $price;
         return [
             "name" => fake()->colorName(),
-            // "product_category_id" => \App\Models\ProductCategory::all()->random(1)[0]->id,
-            "cost" => fake()->randomFloat(7, 10, 10000),
+            "cost" => $cost,
             "unit" => fake()->randomElement(["袋", "箱", "Kg", "g"]),
             "tax_class" => fake()->randomDigit(),
-            "price" => fake()->randomFloat(7, 10, 10000),
+            "price" => $price,
             "gross_profit" => $gross_profit,
             "gross_rate" => $gross_rate,
         ];

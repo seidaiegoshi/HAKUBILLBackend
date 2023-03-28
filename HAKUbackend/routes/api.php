@@ -34,6 +34,7 @@ Route::prefix("product")
         Route::get("/groupByCategory/{category_id}", [ProductController::class, "productsByCategoryId"])->name("productsByCategoryId");
 
         Route::get("/{id}", [ProductController::class, "show"])->name("show");
+        Route::patch("/{id}", [ProductController::class, "update"])->name("update");
         Route::delete("/{id}", [ProductController::class, "destroy"])->name("destroy");
     });
 
@@ -52,8 +53,13 @@ Route::prefix("customer")
     ->name("customer.")
     ->group(function () {
         Route::get("", [CustomerController::class, "index"])->name("index");
-        Route::get("/{word}", [CustomerController::class, "search"])->name("search");
         Route::post("", [CustomerController::class, "store"])->name("store");
+
+        Route::get("/customer_price/{id}", [CustomerController::class, "showCustomerPrice"])->name("showCustomerPrice");
+        Route::get("/customer_price", [CustomerController::class, "searchProducts"])->name("searchProducts");
+        Route::get("/{customer_id}/customer_price", [CustomerController::class, "showCustomerProducts"])->name("showCustomerProducts");
+        Route::patch("/customer_price/{id}", [CustomerController::class, "updateCustomerPrice"])->name("updateCustomerPrice");
+        Route::delete("/customer_price/{id}", [CustomerController::class, "destroyCustomerPrice"])->name("destroyCustomerPrice");
     });
 
 Route::prefix("delivery_slip")
@@ -64,7 +70,6 @@ Route::prefix("delivery_slip")
         Route::get("/{id}", [DeliverySlipController::class, "show"])->name("show");
 
         Route::post("", [DeliverySlipController::class, "store"])->name("store");
-        Route::post("/contents", [DeliverySlipController::class, "contents"])->name("contents");
     });
 
 Route::prefix("invoice")
@@ -81,6 +86,10 @@ Route::prefix("fixed_cost")
     ->group(function () {
         Route::get("", [FixedCostController::class, "index"])->name("index");
         Route::post("", [FixedCostController::class, "store"])->name("store");
+
+        Route::get("/{id}", [FixedCostController::class, "show"])->name("show");
+        Route::patch("/{id}", [FixedCostController::class, "update"])->name("update");
+        Route::delete("/{id}", [FixedCostController::class, "destroy"])->name("destroy");
     });
 
 Route::prefix("analysis")

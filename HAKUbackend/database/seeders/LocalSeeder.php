@@ -36,7 +36,13 @@ class LocalSeeder extends Seeder
         }
 
         Customer::factory()->count(10)->create();
-        CustomerPrice::factory()->count(10)->create();
+
+        // どうやらseederは並列処理するので、1回1回まわさないと、ユニークキーの重複担ってしまう模様。100個データ作る。
+        for ($i = 0; $i < 100; $i++) {
+            CustomerPrice::factory()->count(1)->create();
+            # code...
+        }
+
         DeliverySlip::factory()->count(120)->create();
         DeliveryContent::factory()->count(300)->create();
         Invoice::factory()->count(10)->create();

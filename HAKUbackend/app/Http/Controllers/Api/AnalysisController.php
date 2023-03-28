@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\DeliveryContent;
 use App\Models\DeliverySlip;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class AnalysisController extends Controller
 {
@@ -19,9 +21,22 @@ class AnalysisController extends Controller
      */
     public function sales($from, $to)
     {
-        $toDate  = date($to, strtotime("1 day")); //期間指定用に1日分追加
+        $toDate  = date('Y-m-d', strtotime($to . ' +1 day')); // 期間指定用に1日分追加
 
-        $sumQuantity = DeliveryContent::query()->leftJoin("delivery_slips", "delivery_contents.delivery_slip_id", "=", "delivery_slips.id")->select("delivery_contents.product_id")->whereBetween('delivery_slips.publish_date', [$from, $toDate])->selectRaw("SUM(delivery_contents.quantity) AS sum_quantity")->selectRaw("SUM(delivery_contents.gross_profit) AS sum_gross_profit")->groupBy("delivery_contents.product_id")->with("product")->get();
+        $sumQuantity = DeliverySlip::query()
+            ->leftJoin("delivery_contents", "delivery_contents.delivery_slip_id", "=", "delivery_slips.id")
+            ->leftJoin("products", "delivery_contents.product_id", "=", "products.id")
+            ->whereBetween('delivery_slips.publish_date', [$from, $toDate])
+            ->select(
+                "delivery_contents.product_id",
+                "products.name",
+                "products.unit",
+                DB::raw("SUM(delivery_contents.quantity) AS sum_quantity"),
+                DB::raw("SUM(delivery_contents.gross_profit) AS sum_gross_profit")
+            )
+            ->groupBy("delivery_contents.product_id", "products.name", "products.unit")
+            ->havingRaw("sum_quantity IS NOT NULL")
+            ->get();
 
         return $sumQuantity;
     }

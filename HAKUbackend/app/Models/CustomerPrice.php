@@ -20,4 +20,13 @@ class CustomerPrice extends Model
         "created_at",
         "updated_at",
     ];
+
+    public function products()
+    {
+        return $this->belongsTo(Product::class, "product_id");
+    }
+    public function customers()
+    {
+        return $this->belongsTo(Customer::class, "customer_id");
+    }
 }
