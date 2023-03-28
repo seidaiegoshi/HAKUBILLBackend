@@ -53,10 +53,13 @@ Route::prefix("customer")
     ->name("customer.")
     ->group(function () {
         Route::get("", [CustomerController::class, "index"])->name("index");
-        Route::get("/{word}", [CustomerController::class, "search"])->name("search");
         Route::post("", [CustomerController::class, "store"])->name("store");
 
-        Route::get("/{id}/products", [CustomerController::class, "showCustomerProducts"])->name("showCustomerProducts");
+        Route::get("/customer_price/{id}", [CustomerController::class, "showCustomerPrice"])->name("showCustomerPrice");
+        Route::get("/customer_price", [CustomerController::class, "searchProducts"])->name("searchProducts");
+        Route::get("/{customer_id}/customer_price", [CustomerController::class, "showCustomerProducts"])->name("showCustomerProducts");
+        Route::patch("/customer_price/{id}", [CustomerController::class, "updateCustomerPrice"])->name("updateCustomerPrice");
+        Route::delete("/customer_price/{id}", [CustomerController::class, "destroyCustomerPrice"])->name("destroyCustomerPrice");
     });
 
 Route::prefix("delivery_slip")
