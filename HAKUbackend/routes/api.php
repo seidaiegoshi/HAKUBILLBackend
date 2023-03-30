@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\CustomerController;
 use App\Http\Controllers\Api\DeliverySlipController;
 use App\Http\Controllers\Api\FixedCostController;
 use App\Http\Controllers\Api\InvoiceController;
+use App\Http\Controllers\Api\MaterialController;
 use App\Http\Controllers\Api\ProductController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -36,6 +37,7 @@ Route::prefix("product")
         Route::get("/{id}", [ProductController::class, "show"])->name("show");
         Route::patch("/{id}", [ProductController::class, "update"])->name("update");
         Route::delete("/{id}", [ProductController::class, "destroy"])->name("destroy");
+        Route::get('/{id}/materials', [ProductController::class, 'showMaterials']);
     });
 
 Route::prefix("category")
@@ -98,4 +100,13 @@ Route::prefix("analysis")
     ->group(function () {
         Route::get("/sales/{from}/{to}", [AnalysisController::class, "sales"])->name("sales");
         Route::get("/daily_profit/{from}/{to}", [AnalysisController::class, "daily_profit"])->name("daily_profit");
+    });
+
+Route::prefix("material")
+    ->name("material.")
+    ->group(function () {
+        Route::get("", [MaterialController::class, "index"])->name("index");
+        Route::post("", [MaterialController::class, "store"])->name("store");
+
+        Route::get("/{id}/products", [MaterialController::class, "showProducts"])->name("showProducts");
     });

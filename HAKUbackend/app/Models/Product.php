@@ -34,6 +34,7 @@ class Product extends Model
     {
         return $this->hasMany(DeliveryContent::class);
     }
+
     public function customer_prices()
     {
         return $this->hasMany(CustomerPrice::class);

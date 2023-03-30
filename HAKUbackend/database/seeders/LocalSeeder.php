@@ -9,10 +9,11 @@ use App\Models\DeliverySlip;
 use App\Models\FixedCost;
 use App\Models\Invoice;
 use App\Models\InvoiceContent;
+use App\Models\Material;
+use App\Models\MaterialProduct;
 use App\Models\Product;
 use App\Models\ProductCategory;;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class LocalSeeder extends Seeder
@@ -24,6 +25,11 @@ class LocalSeeder extends Seeder
      */
     public function run()
     {
+
+        Material::factory()
+            ->count(20)
+            ->create();
+
         $categories = ProductCategory::factory()->count(4)->create();
 
         //各カテゴリ5商品ずつ登録
@@ -40,7 +46,9 @@ class LocalSeeder extends Seeder
         // どうやらseederは並列処理するので、1回1回まわさないと、ユニークキーの重複担ってしまう模様。100個データ作る。
         for ($i = 0; $i < 100; $i++) {
             CustomerPrice::factory()->count(1)->create();
-            # code...
+        }
+        for ($i = 0; $i < 50; $i++) {
+            MaterialProduct::factory()->count(1)->create();
         }
 
         DeliverySlip::factory()->count(120)->create();

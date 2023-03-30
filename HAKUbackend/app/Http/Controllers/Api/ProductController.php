@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ProductResource;
 use App\Models\DeliveryContent;
+use App\Models\MaterialProduct;
 use App\Models\Product;
 use App\Models\ProductCategory;
 use Illuminate\Http\Request;
@@ -104,6 +105,19 @@ class ProductController extends Controller
         $product = Product::find($id);
         return $product;
     }
+
+
+    public function showMaterials($product_id)
+    {
+
+        $materials = MaterialProduct::query()
+            ->where("material_products.product_id", $product_id)
+            ->leftJoin("materials", "material_products.material_id", "=", "materials.id")
+            ->select('materials.*', 'material_products.quantity')
+            ->get();
+        return response()->json(['materials' => $materials]);
+    }
+
     /**
      * Display the specified resource.
      *
