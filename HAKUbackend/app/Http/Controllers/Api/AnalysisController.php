@@ -21,7 +21,7 @@ class AnalysisController extends Controller
      */
     public function sales($from, $to)
     {
-        $toDate  = date('Y-m-d', strtotime($to . ' +1 day')); // 期間指定用に1日分追加
+        $toDate  = date($to, strtotime("1 day")); //期間指定用に1日分追加
 
         $sumQuantity = DeliverySlip::query()
             ->leftJoin("delivery_contents", "delivery_contents.delivery_slip_id", "=", "delivery_slips.id")
@@ -44,7 +44,7 @@ class AnalysisController extends Controller
     // 指定期間の日付毎の粗利を取得する
     public function daily_profit($from, $to)
     {
-        $toDate  = date('Y-m-d', strtotime($to . ' +1 day')); // 期間指定用に1日分追加
+        $toDate  = date($to, strtotime("1 day")); //期間指定用に1日分追加
 
         $profit = DeliverySlip::query()->leftJoin("delivery_contents", "delivery_contents.delivery_slip_id", "=", "delivery_slips.id")->select("delivery_slips.publish_date")->whereBetween('delivery_slips.publish_date', [$from, $toDate])->selectRaw("SUM(delivery_contents.gross_profit) AS sum_gross_profit")->groupBy("delivery_slips.publish_date")->havingRaw("sum_gross_profit IS NOT NULL")->get();
 
