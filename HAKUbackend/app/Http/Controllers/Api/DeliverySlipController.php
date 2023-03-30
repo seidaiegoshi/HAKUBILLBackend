@@ -20,14 +20,23 @@ class DeliverySlipController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        // $ds = DeliverySlip::orderBy("created_at", "desc")
-        $ds = DeliverySlip::with("delivery_contents")
-            ->orderBy("created_at", "desc")
-            ->get();
+        $deliverySlip = DeliverySlip::with("contents");
 
-        return response()->json($ds);
+        if ($request->has('dateFrom') && $request->has('dateTo')) {
+            $from  = $request->input("dateFrom");
+            $to  = date('Y-m-d', strtotime($request->input("dateTo") . ' +1 day')); // 期間指定用に1日分追加
+            $deliverySlip->whereBetween('delivery_slips.publish_date', [$from, $to]);
+        }
+
+        if ($request->has('word')) {
+            $deliverySlip->where('delivery_slips.customer_name', 'like', '%' . $request->input('word') . '%');
+        }
+
+        $deliverySlip = $deliverySlip->orderBy("delivery_slips.publish_date", "desc")->get();
+
+        return response()->json($deliverySlip);
         // return DeliverySlipResource::collection($ds);
     }
 
