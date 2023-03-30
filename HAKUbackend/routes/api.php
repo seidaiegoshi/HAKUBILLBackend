@@ -86,6 +86,7 @@ Route::prefix("fixed_cost")
     ->group(function () {
         Route::get("", [FixedCostController::class, "index"])->name("index");
         Route::post("", [FixedCostController::class, "store"])->name("store");
+        Route::get("/day", [FixedCostController::class, "day"])->name("day");
 
         Route::get("/{id}", [FixedCostController::class, "show"])->name("show");
         Route::patch("/{id}", [FixedCostController::class, "update"])->name("update");
