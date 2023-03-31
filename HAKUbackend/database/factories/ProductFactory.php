@@ -24,7 +24,6 @@ class ProductFactory extends Factory
             "name" => fake()->colorName(),
             "cost" => $cost,
             "unit" => fake()->randomElement(["袋", "箱", "Kg", "g"]),
-            "tax_class" => fake()->randomDigit(),
             "price" => $price,
             "gross_profit" => $gross_profit,
             "gross_rate" => $gross_rate,

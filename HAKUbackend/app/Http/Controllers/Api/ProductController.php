@@ -71,8 +71,6 @@ class ProductController extends Controller
             "product_category_id" => $request->input("product_category_id"),
             "cost" => $request->input("cost"),
             "unit" => $request->input("unit"),
-            "tax_class" =>
-            $request->input("tax_class"),
             "price" =>
             $request->input("price"),
             "gross_profit" =>
@@ -158,8 +156,6 @@ class ProductController extends Controller
             "product_category_id" => $request->input("product_category_id"),
             "cost" => $request->input("cost"),
             "unit" => $request->input("unit"),
-            "tax_class" =>
-            $request->input("tax_class"),
             "price" =>
             $request->input("price"),
             "gross_profit" =>
