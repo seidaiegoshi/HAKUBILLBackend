@@ -31,6 +31,7 @@ class ProductFactory extends Factory
             "price" => $price,
             "gross_profit" => $gross_profit,
             "gross_rate" => $gross_rate,
+            "is_product" => false,
         ];
     }
 }

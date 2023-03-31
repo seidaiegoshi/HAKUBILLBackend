@@ -44,7 +44,10 @@ class LocalSeeder extends Seeder
             CustomerPrice::factory()->count(1)->create();
         }
         for ($i = 0; $i < 50; $i++) {
-            MaterialProduct::factory()->count(1)->create();
+            $recipe = MaterialProduct::factory()->count(1)->create()->first();
+            $product = Product::find($recipe->product_id);
+            $product->is_product = true;
+            $product->save();
         }
 
         DeliverySlip::factory()->count(120)->create();
