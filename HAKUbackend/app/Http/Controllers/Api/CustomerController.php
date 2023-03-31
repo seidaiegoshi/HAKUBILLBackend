@@ -130,7 +130,7 @@ class CustomerController extends Controller
     public function showCustomerProducts($customerId)
     {
         // $customerProducts = CustomerPrice::with("products")->get();
-        $customerProducts = CustomerPrice::query()->leftJoin("products", "customer_prices.product_id", "=", "products.id")->select("customer_prices.*", "products.name", "products.cost", "products.unit")->where("customer_prices.customer_id", $customerId)->get();
+        $customerProducts = CustomerPrice::query()->leftJoin("products", "customer_prices.product_id", "=", "products.id")->select("customer_prices.*", "products.name", "products.total_cost", "products.unit")->where("customer_prices.customer_id", $customerId)->get();
 
         return response()->json($customerProducts);
     }

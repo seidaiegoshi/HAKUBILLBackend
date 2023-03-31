@@ -69,7 +69,7 @@ class ProductController extends Controller
         $product = Product::create([
             "name" => $request->input("name"),
             "product_category_id" => $request->input("product_category_id"),
-            "cost" => $request->input("cost"),
+            "total_cost" => $request->input("total_cost"),
             "unit" => $request->input("unit"),
             "price" =>
             $request->input("price"),
@@ -150,7 +150,7 @@ class ProductController extends Controller
         $data->update([
             "name" => $request->input("name"),
             "product_category_id" => $request->input("product_category_id"),
-            "cost" => $request->input("cost"),
+            "total_cost" => $request->input("total_cost"),
             "unit" => $request->input("unit"),
             "price" =>
             $request->input("price"),

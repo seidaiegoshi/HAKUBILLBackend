@@ -91,7 +91,7 @@ class DeliverySlipController extends Controller
                     $content->product_id = $product_id;
                     $content->product_name = $itemData["product_name"];
                     $content->unit = $itemData["unit"];
-                    $content->cost = $itemData["cost"];
+                    $content->total_cost = $itemData["total_cost"];
                     $content->price = $itemData["price"];
                     $content->quantity = $itemData["quantity"];
                     $content->gross_profit = $itemData["gross_profit"];
