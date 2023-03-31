@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string("product_name");
             $table->string("unit");
             $table->decimal("price", 8, 2);
-            $table->decimal("cost", 8, 2);
+            $table->decimal("total_cost", 8, 2);
             $table->decimal("quantity", 8, 2);
             $table->decimal("gross_profit", 8, 2);
             $table->decimal("subtotal", 8, 2);

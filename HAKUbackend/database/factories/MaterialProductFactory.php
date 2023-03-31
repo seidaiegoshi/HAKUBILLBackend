@@ -19,18 +19,19 @@ class MaterialProductFactory extends Factory
      */
     public function definition()
     {
-        $materialId = Material::inRandomOrder()->first()->id;
+        $materialId = Product::inRandomOrder()->first()->id;
         $productId = Product::inRandomOrder()->first()->id;
 
         while (MaterialProduct::where('material_id', $materialId)->where('product_id', $productId)->exists()) {
-            $materialId = Material::inRandomOrder()->first()->id;
+            $materialId = Product::inRandomOrder()->first()->id;
             $productId = Product::inRandomOrder()->first()->id;
         }
 
         return [
             "material_id" => $materialId,
             "product_id" => $productId,
-            "quantity" => fake()->randomFloat(7, 10, 10000),
+            "yield_rate" => fake()->randomFloat(4, 0, 1),
+            "usage_rate" => fake()->randomFloat(4, 0, 1),
         ];
     }
 }

@@ -107,13 +107,10 @@ class ProductController extends Controller
 
     public function showMaterials($product_id)
     {
-
-        $materials = MaterialProduct::query()
+        $materials = MaterialProduct::with("material")
             ->where("material_products.product_id", $product_id)
-            ->leftJoin("materials", "material_products.material_id", "=", "materials.id")
-            ->select('materials.*', 'material_products.quantity')
             ->get();
-        return response()->json(['materials' => $materials]);
+        return response()->json($materials);
     }
 
     /**
@@ -127,7 +124,6 @@ class ProductController extends Controller
         $product = ProductCategory::find($id);
         return $product;
     }
-
 
 
     /**

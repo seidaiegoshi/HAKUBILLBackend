@@ -9,7 +9,6 @@ use App\Models\DeliverySlip;
 use App\Models\FixedCost;
 use App\Models\Invoice;
 use App\Models\InvoiceContent;
-use App\Models\Material;
 use App\Models\MaterialProduct;
 use App\Models\Product;
 use App\Models\ProductCategory;;
@@ -26,9 +25,6 @@ class LocalSeeder extends Seeder
     public function run()
     {
 
-        Material::factory()
-            ->count(20)
-            ->create();
 
         $categories = ProductCategory::factory()->count(4)->create();
 

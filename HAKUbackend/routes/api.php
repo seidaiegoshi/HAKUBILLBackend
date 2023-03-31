@@ -34,10 +34,12 @@ Route::prefix("product")
         Route::get("/groupByCategories", [ProductController::class, "productsByCategory"])->name("productsByCategory");
         Route::get("/groupByCategory/{category_id}", [ProductController::class, "productsByCategoryId"])->name("productsByCategoryId");
 
-        Route::get("/{id}", [ProductController::class, "show"])->name("show");
-        Route::patch("/{id}", [ProductController::class, "update"])->name("update");
-        Route::delete("/{id}", [ProductController::class, "destroy"])->name("destroy");
-        Route::get('/{id}/materials', [ProductController::class, 'showMaterials']);
+        Route::get("/{productId}", [ProductController::class, "show"])->name("show");
+        Route::patch("/{productId}", [ProductController::class, "update"])->name("update");
+        Route::delete("/{productId}", [ProductController::class, "destroy"])->name("destroy");
+
+        Route::get('/{productId}/materials', [ProductController::class, 'showMaterials']);
+        Route::get('/{productId}/materials/{materialId}', [ProductController::class, 'showMaterials']);
     });
 
 Route::prefix("category")

@@ -15,16 +15,23 @@ return new class extends Migration
     {
         Schema::create('material_products', function (Blueprint $table) {
             $table->id();
-            $table
-                ->foreignId("material_id")
-                ->constrained();
-            $table
-                ->foreignId("product_id")
-                ->constrained();
-            $table->decimal("quantity", 8, 1);
+            $table->unsignedBigInteger('product_id')->comment("完成するもの");
+            $table->unsignedBigInteger('material_id')->comment("材料になる商品ID");
+            $table->decimal("yield_rate", 5, 4)->comment("材料の加工に発生する歩留まりや不良率");
+            $table->decimal("usage_rate", 5, 4)->comment("材料の使用率");;
             $table->timestamps();
 
             $table->unique(['material_id', 'product_id']);
+
+            $table->foreign('product_id')
+                ->references('id')->on('products')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
+
+            $table->foreign('material_id')
+                ->references('id')->on('products')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
         });
     }
 

@@ -15,12 +15,12 @@ class MaterialProduct extends Model
         "updated_at",
     ];
 
-    public function products()
+    public function product()
     {
         return $this->belongsTo(Product::class, "product_id");
     }
-    public function materials()
+    public function material()
     {
-        return $this->belongsTo(Material::class, "material_id");
+        return $this->belongsTo(Product::class, "material_id");
     }
 }
