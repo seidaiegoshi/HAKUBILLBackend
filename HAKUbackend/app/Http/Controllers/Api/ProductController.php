@@ -77,6 +77,8 @@ class ProductController extends Controller
             $request->input("gross_profit"),
             "gross_rate" =>
             $request->input("gross_rate"),
+            "is_product" =>
+            $request->input("is_product"),
         ]);
 
         return new ProductResource($product);
