@@ -50,7 +50,7 @@ class LocalSeeder extends Seeder
             $product->save();
         }
 
-        DeliverySlip::factory()->count(120)->create();
+        DeliverySlip::factory()->count(300)->create();
         DeliveryContent::factory()->count(300)->create();
         Invoice::factory()->count(10)->create();
         InvoiceContent::factory()->count(10)->create();

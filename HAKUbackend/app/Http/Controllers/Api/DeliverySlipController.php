@@ -23,6 +23,8 @@ class DeliverySlipController extends Controller
     public function index(Request $request)
     {
         $deliverySlip = DeliverySlip::with("contents");
+        $perPage = 50; // 1ページあたりの表示件数
+
 
         if ($request->has('dateFrom') && $request->has('dateTo')) {
             $from  = $request->input("dateFrom");
@@ -33,8 +35,8 @@ class DeliverySlipController extends Controller
         if ($request->has('word')) {
             $deliverySlip->where('delivery_slips.customer_name', 'like', '%' . $request->input('word') . '%');
         }
-
-        $deliverySlip = $deliverySlip->orderBy("delivery_slips.publish_date", "desc")->get();
+        $deliverySlip = $deliverySlip->orderBy("delivery_slips.publish_date", "desc");
+        $deliverySlip = $deliverySlip->paginate($perPage);
 
         return response()->json($deliverySlip);
         // return DeliverySlipResource::collection($ds);

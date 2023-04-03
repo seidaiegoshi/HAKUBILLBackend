@@ -22,7 +22,6 @@ return new class extends Migration
             $table->decimal("weight")->nullable()->comment("商品の重量(g)");;
             $table->decimal("cost_per_gram")->nullable()->comment("1gあたりの重さ");;
             $table->string("unit")->comment("単位");
-            $table->string("unit")->comment("単位");
             $table->decimal("gross_profit", 8, 1,)->comment("粗利");
             $table->decimal("gross_rate", 8, 1,)->comment("粗利率");
             $table->boolean("is_product");

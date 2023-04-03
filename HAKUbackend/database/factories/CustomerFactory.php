@@ -16,12 +16,14 @@ class CustomerFactory extends Factory
      */
     public function definition()
     {
+
+        $address = fake()->prefecture() . fake()->city() . fake()->streetAddress();
         return [
             "name" => fake()->company(),
             "honorific" => fake()->randomElement(["様", "御中"]),
             "post" => fake()->streetAddress(),
             "post_code" => fake()->postcode(),
-            "address" => fake()->address(),
+            "address" => $address,
             "telephone_number" => fake()->phoneNumber(),
             "fax_number" => fake()->phoneNumber(),
         ];
