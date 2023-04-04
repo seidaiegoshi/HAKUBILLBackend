@@ -19,7 +19,7 @@ return [
 
     'allowed_methods' => ['GET,POST,DELETE,PUT,PATCH'],
 
-    'allowed_origins' => [env('FRONTEND_URL'), env('FRONTEND_URL_DEV')],
+    'allowed_origins' => [env('FRONTEND_URL_DEV'), env('FRONTEND_URL')],
 
     'allowed_origins_patterns' => [],
 
