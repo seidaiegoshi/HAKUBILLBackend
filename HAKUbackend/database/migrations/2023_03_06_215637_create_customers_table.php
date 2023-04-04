@@ -18,11 +18,13 @@ return new class extends Migration
             $table->string("name")->comment("取引先名");
             $table->string("honorific")->comment("敬称");
             $table->string("post")->nullable()->comment("部署名");
-            $table->char("post_code", 7)->nullable()->comment("郵便番号");
+            $table->char("post_code", 8)->nullable()->comment("郵便番号");
             $table->string("address")->nullable()->comment("住所");
             $table->char("telephone_number", 14)->nullable()->comment("電話番号");
             $table->char("fax_number", 14)->nullable()->comment("FAX番号");
             $table->timestamps();
+            $table->softDeletes();
+
 
             $table->index("name");
         });

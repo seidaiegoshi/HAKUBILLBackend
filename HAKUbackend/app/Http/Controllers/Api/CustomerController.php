@@ -59,7 +59,10 @@ class CustomerController extends Controller
                 'customer_prices.updated_at',
                 'products.name as product_name',
                 'customers.name as customer_name'
-            );
+            )
+            ->whereNull('products.deleted_at') // products のソフトデリートされていないレコードに限定
+            ->whereNull('customers.deleted_at'); // customers のソフトデリートされていないレコードに限定
+        ;
 
         if ($request->has('customer_name')) {
             $customerPrice->where('customers.name', 'like', '%' . $request->input('customer_name') . '%');
@@ -118,7 +121,9 @@ class CustomerController extends Controller
      */
     public function show($id)
     {
-        //
+        // Log::debug($id);
+        $customer = Customer::find($id);
+        return $customer;
     }
 
     /**
@@ -156,7 +161,21 @@ class CustomerController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $data = Customer::findOrFail($id);
+        $data->update([
+            "name" => $request->input("name"),
+            "honorific" => $request->input("honorific"),
+            "post" => $request->input("post"),
+            "post_code" =>
+            $request->input("post_code"),
+            "address" =>
+            $request->input("address"),
+            "telephone_number" =>
+            $request->input("telephone_number"),
+            "fax_number" =>
+            $request->input("fax_number"),
+        ]);
+        return $data;
     }
     /**
      * Update the specified resource in storage.
@@ -185,7 +204,8 @@ class CustomerController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $product = Customer::find($id);
+        $product->delete();
     }
     public function destroyCustomerPrice($id)
     {

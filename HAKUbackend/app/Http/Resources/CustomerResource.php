@@ -18,11 +18,11 @@ class CustomerResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'honorific' => $this->honorific,
-            'post' => $this->post,
             'post_code' => $this->post_code,
             'address' => $this->address,
             'telephone_number' => $this->telephone_number,
             'fax_number' => $this->fax_number,
+            'updated_at' => $this->updated_at,
         ];
     }
 }
