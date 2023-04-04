@@ -20,6 +20,7 @@ class DeliverySlipFactory extends Factory
         return [
             "customer_id" => $customer->id,
             "customer_name" => $customer->name,
+            "customer_post_code" => $customer->post_code,
             "customer_address" => $customer->address,
             "publish_date" => fake()->dateTimeBetween($startDate = '-60 days', $endDate = 'now'),
             "total_price" => fake()->randomFloat(7, 1, 50),

@@ -18,6 +18,7 @@ return new class extends Migration
             $table->foreignId("customer_id")->constrained();
             $table->date("publish_date");
             $table->string("customer_name");
+            $table->string("customer_post_code");
             $table->string("customer_address");
             $table->decimal("total_price");
             $table->timestamps();

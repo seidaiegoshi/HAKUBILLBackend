@@ -86,7 +86,7 @@ class ProductController extends Controller
 
     public function storeCategory(Request $request)
     {
-        Log::debug($request->all());
+        // Log::debug($request->all());
 
         $category = ProductCategory::create([
             "name" => $request->input("name"),
