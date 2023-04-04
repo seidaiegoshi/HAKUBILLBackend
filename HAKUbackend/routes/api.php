@@ -78,6 +78,7 @@ Route::prefix("delivery_slip")
     ->name("delivery_slip.")
     ->group(function () {
         Route::get("", [DeliverySlipController::class, "index"])->name("index");
+        Route::patch("/{id}", [DeliverySlipController::class, "update"])->name("update");
         Route::get("/create", [DeliverySlipController::class, "create"])->name("create");
         Route::get("/{id}", [DeliverySlipController::class, "show"])->name("show");
 
