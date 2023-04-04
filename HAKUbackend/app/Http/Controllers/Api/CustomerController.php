@@ -59,7 +59,10 @@ class CustomerController extends Controller
                 'customer_prices.updated_at',
                 'products.name as product_name',
                 'customers.name as customer_name'
-            );
+            )
+            ->whereNull('products.deleted_at') // products のソフトデリートされていないレコードに限定
+            ->whereNull('customers.deleted_at'); // customers のソフトデリートされていないレコードに限定
+        ;
 
         if ($request->has('customer_name')) {
             $customerPrice->where('customers.name', 'like', '%' . $request->input('customer_name') . '%');

@@ -62,12 +62,15 @@ Route::prefix("customer")
         Route::get("/{customerId}", [CustomerController::class, "show"])->name("show");
         Route::patch("/{customerId}", [CustomerController::class, "update"])->name("update");
         Route::delete("/{customerId}", [CustomerController::class, "destroy"])->name("destroy");
-
-        Route::get("/customer_price/{id}", [CustomerController::class, "showCustomerPrice"])->name("showCustomerPrice");
-        Route::get("/customer_price", [CustomerController::class, "searchProducts"])->name("searchProducts");
         Route::get("/{customer_id}/customer_price", [CustomerController::class, "showCustomerProducts"])->name("showCustomerProducts");
-        Route::patch("/customer_price/{id}", [CustomerController::class, "updateCustomerPrice"])->name("updateCustomerPrice");
-        Route::delete("/customer_price/{id}", [CustomerController::class, "destroyCustomerPrice"])->name("destroyCustomerPrice");
+    });
+Route::prefix("customer_price")
+    ->name("customer_price.")
+    ->group(function () {
+        Route::get("", [CustomerController::class, "searchProducts"])->name("searchProducts");
+        Route::get("/{id}", [CustomerController::class, "showCustomerPrice"])->name("showCustomerPrice");
+        Route::patch("/{id}", [CustomerController::class, "updateCustomerPrice"])->name("updateCustomerPrice");
+        Route::delete("/{id}", [CustomerController::class, "destroyCustomerPrice"])->name("destroyCustomerPrice");
     });
 
 Route::prefix("delivery_slip")
