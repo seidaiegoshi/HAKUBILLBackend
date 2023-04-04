@@ -21,7 +21,6 @@ class CustomerFactory extends Factory
         return [
             "name" => fake()->company(),
             "honorific" => fake()->randomElement(["様", "御中"]),
-            "post" => fake()->streetAddress(),
             "post_code" => fake()->postcode(),
             "address" => $address,
             "telephone_number" => fake()->phoneNumber(),

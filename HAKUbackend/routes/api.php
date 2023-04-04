@@ -59,6 +59,10 @@ Route::prefix("customer")
         Route::get("", [CustomerController::class, "index"])->name("index");
         Route::post("", [CustomerController::class, "store"])->name("store");
 
+        Route::get("/{customerId}", [CustomerController::class, "show"])->name("show");
+        Route::patch("/{customerId}", [CustomerController::class, "update"])->name("update");
+        Route::delete("/{customerId}", [CustomerController::class, "destroy"])->name("destroy");
+
         Route::get("/customer_price/{id}", [CustomerController::class, "showCustomerPrice"])->name("showCustomerPrice");
         Route::get("/customer_price", [CustomerController::class, "searchProducts"])->name("searchProducts");
         Route::get("/{customer_id}/customer_price", [CustomerController::class, "showCustomerProducts"])->name("showCustomerProducts");
