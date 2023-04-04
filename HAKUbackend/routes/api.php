@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\CustomerController;
 use App\Http\Controllers\Api\DeliverySlipController;
 use App\Http\Controllers\Api\FixedCostController;
 use App\Http\Controllers\Api\InvoiceController;
+use App\Http\Controllers\Api\MaterialController;
 use App\Http\Controllers\Api\ProductController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -33,9 +34,12 @@ Route::prefix("product")
         Route::get("/groupByCategories", [ProductController::class, "productsByCategory"])->name("productsByCategory");
         Route::get("/groupByCategory/{category_id}", [ProductController::class, "productsByCategoryId"])->name("productsByCategoryId");
 
-        Route::get("/{id}", [ProductController::class, "show"])->name("show");
-        Route::patch("/{id}", [ProductController::class, "update"])->name("update");
-        Route::delete("/{id}", [ProductController::class, "destroy"])->name("destroy");
+        Route::get("/{productId}", [ProductController::class, "show"])->name("show");
+        Route::patch("/{productId}", [ProductController::class, "update"])->name("update");
+        Route::delete("/{productId}", [ProductController::class, "destroy"])->name("destroy");
+
+        Route::get('/{productId}/materials', [ProductController::class, 'showMaterials']);
+        Route::get('/{productId}/materials/{materialId}', [ProductController::class, 'showMaterials']);
     });
 
 Route::prefix("category")
@@ -86,6 +90,7 @@ Route::prefix("fixed_cost")
     ->group(function () {
         Route::get("", [FixedCostController::class, "index"])->name("index");
         Route::post("", [FixedCostController::class, "store"])->name("store");
+        Route::get("/day", [FixedCostController::class, "day"])->name("day");
 
         Route::get("/{id}", [FixedCostController::class, "show"])->name("show");
         Route::patch("/{id}", [FixedCostController::class, "update"])->name("update");
@@ -97,4 +102,13 @@ Route::prefix("analysis")
     ->group(function () {
         Route::get("/sales/{from}/{to}", [AnalysisController::class, "sales"])->name("sales");
         Route::get("/daily_profit/{from}/{to}", [AnalysisController::class, "daily_profit"])->name("daily_profit");
+    });
+
+Route::prefix("material")
+    ->name("material.")
+    ->group(function () {
+        Route::get("", [MaterialController::class, "index"])->name("index");
+        Route::post("", [MaterialController::class, "store"])->name("store");
+
+        Route::get("/{id}/products", [MaterialController::class, "showProducts"])->name("showProducts");
     });

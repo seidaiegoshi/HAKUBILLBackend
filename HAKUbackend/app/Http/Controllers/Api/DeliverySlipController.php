@@ -20,14 +20,25 @@ class DeliverySlipController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        // $ds = DeliverySlip::orderBy("created_at", "desc")
-        $ds = DeliverySlip::with("delivery_contents")
-            ->orderBy("created_at", "desc")
-            ->get();
+        $deliverySlip = DeliverySlip::with("contents");
+        $perPage = 50; // 1ページあたりの表示件数
 
-        return response()->json($ds);
+
+        if ($request->has('dateFrom') && $request->has('dateTo')) {
+            $from  = $request->input("dateFrom");
+            $to  = date('Y-m-d', strtotime($request->input("dateTo") . ' +1 day')); // 期間指定用に1日分追加
+            $deliverySlip->whereBetween('delivery_slips.publish_date', [$from, $to]);
+        }
+
+        if ($request->has('word')) {
+            $deliverySlip->where('delivery_slips.customer_name', 'like', '%' . $request->input('word') . '%');
+        }
+        $deliverySlip = $deliverySlip->orderBy("delivery_slips.publish_date", "desc");
+        $deliverySlip = $deliverySlip->paginate($perPage);
+
+        return response()->json($deliverySlip);
         // return DeliverySlipResource::collection($ds);
     }
 
@@ -50,7 +61,6 @@ class DeliverySlipController extends Controller
      */
     public function store(Request $request)
     {
-        Log::debug($request->all());
         DB::transaction(
             function () use ($request) {
                 $customer_id = $request->input("customer_id");
@@ -65,16 +75,17 @@ class DeliverySlipController extends Controller
 
                 foreach ($request["contents"] as $itemData) {
                     $product_id = $itemData["product_id"];
-                    // CustomerPriceに登録されてなくて、金額がデフォルトじゃなかったら登録する。
-                    $isNewCustomerPrice = CustomerPrice::where("customer_id", $customer_id)->where("product_id", $product_id)->first();
-                    Log::debug($product_id);
-                    $defaultPrice = Product::find($product_id)->price;
-                    if (!$isNewCustomerPrice  && ($itemData["price"] !== $defaultPrice)) {
-                        CustomerPrice::create([
-                            "customer_id" => $customer_id,
-                            "product_id" => $product_id,
-                            "price" => $itemData["price"],
-                        ]);
+                    if ($product_id !== null) {
+                        // CustomerPriceに登録されてなくて、金額がデフォルトじゃなかったら登録する。
+                        $isNewCustomerPrice = CustomerPrice::where("customer_id", $customer_id)->where("product_id", $product_id)->first();
+                        $defaultPrice = Product::find($product_id)->price;
+                        if (!$isNewCustomerPrice  && ($itemData["price"] !== $defaultPrice)) {
+                            CustomerPrice::create([
+                                "customer_id" => $customer_id,
+                                "product_id" => $product_id,
+                                "price" => $itemData["price"],
+                            ]);
+                        }
                     }
 
                     $content = new DeliveryContent();
@@ -82,7 +93,7 @@ class DeliverySlipController extends Controller
                     $content->product_id = $product_id;
                     $content->product_name = $itemData["product_name"];
                     $content->unit = $itemData["unit"];
-                    $content->cost = $itemData["cost"];
+                    $content->total_cost = $itemData["total_cost"];
                     $content->price = $itemData["price"];
                     $content->quantity = $itemData["quantity"];
                     $content->gross_profit = $itemData["gross_profit"];

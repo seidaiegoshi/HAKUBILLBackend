@@ -17,17 +17,21 @@ class ProductFactory extends Factory
     public function definition()
     {
         $price = fake()->randomFloat(7, 10, 10000);
-        $cost = $price * 0.3;
-        $gross_profit = $price - $cost;
+        $weight = fake()->randomDigitNotNull();
+        $total_cost = $price * 0.3;
+        $cost_per_gram = $weight / $total_cost;
+        $gross_profit = $price - $total_cost;
         $gross_rate = $gross_profit / $price;
         return [
             "name" => fake()->colorName(),
-            "cost" => $cost,
+            "total_cost" => $total_cost,
+            "weight" => $weight,
+            "cost_per_gram" => $cost_per_gram,
             "unit" => fake()->randomElement(["袋", "箱", "Kg", "g"]),
-            "tax_class" => fake()->randomDigit(),
             "price" => $price,
             "gross_profit" => $gross_profit,
             "gross_rate" => $gross_rate,
+            "is_product" => false,
         ];
     }
 }

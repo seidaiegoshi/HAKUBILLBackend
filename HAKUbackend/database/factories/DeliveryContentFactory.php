@@ -17,10 +17,10 @@ class DeliveryContentFactory extends Factory
     public function definition()
     {
         $product_id = \App\Models\Product::all()->random(1)[0]->id;
-        $cost = \App\Models\Product::find($product_id)->cost;
+        $total_cost = \App\Models\Product::find($product_id)->total_cost;
         $quantity = fake()->randomFloat(7, 1, 50);
         $price = \App\Models\Product::find($product_id)->price;
-        $gross_profit = $price - $cost;
+        $gross_profit = $price - $total_cost;
         $subtotal = $quantity * $price;
         $subtotal_gross_profit = $gross_profit * $quantity;
 
@@ -30,7 +30,7 @@ class DeliveryContentFactory extends Factory
             "product_name" => \App\Models\Product::find($product_id)->name,
             "unit" => \App\Models\Product::find($product_id)->unit,
             "price" => $price,
-            "cost" => $cost,
+            "total_cost" => $total_cost,
             "quantity" => $quantity,
             "gross_profit" => $gross_profit,
             "subtotal" => $subtotal,

@@ -16,12 +16,12 @@ return new class extends Migration
         Schema::create('delivery_contents', function (Blueprint $table) {
             $table->id();
             $table->foreignId("delivery_slip_id")->constrained();
-            $table->foreignId("product_id")->constrained();
+            $table->foreignId("product_id")->nullable()->constrained();
             $table->string("product_name");
-            $table->string("unit");
+            $table->string("unit")->nullable();
             $table->decimal("price", 8, 2);
-            $table->decimal("cost", 8, 2);
-            $table->decimal("quantity", 8, 2);
+            $table->decimal("total_cost", 8, 2)->nullable();
+            $table->decimal("quantity", 8, 2)->nullable();
             $table->decimal("gross_profit", 8, 2);
             $table->decimal("subtotal", 8, 2);
             $table->decimal("subtotal_gross_profit", 8, 2);

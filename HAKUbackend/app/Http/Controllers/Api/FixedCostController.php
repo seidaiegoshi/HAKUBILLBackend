@@ -23,6 +23,19 @@ class FixedCostController extends Controller
     }
 
     /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function day()
+    {
+        $fc = FixedCost::sum("price");
+        $day = ($fc * 12) / 365;
+        return $day;
+    }
+
+
+    /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response

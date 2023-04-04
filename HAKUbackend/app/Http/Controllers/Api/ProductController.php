@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ProductResource;
 use App\Models\DeliveryContent;
+use App\Models\MaterialProduct;
 use App\Models\Product;
 use App\Models\ProductCategory;
 use Illuminate\Http\Request;
@@ -68,16 +69,16 @@ class ProductController extends Controller
         $product = Product::create([
             "name" => $request->input("name"),
             "product_category_id" => $request->input("product_category_id"),
-            "cost" => $request->input("cost"),
+            "total_cost" => $request->input("total_cost"),
             "unit" => $request->input("unit"),
-            "tax_class" =>
-            $request->input("tax_class"),
             "price" =>
             $request->input("price"),
             "gross_profit" =>
             $request->input("gross_profit"),
             "gross_rate" =>
             $request->input("gross_rate"),
+            "is_product" =>
+            $request->input("is_product"),
         ]);
 
         return new ProductResource($product);
@@ -104,6 +105,16 @@ class ProductController extends Controller
         $product = Product::find($id);
         return $product;
     }
+
+
+    public function showMaterials($product_id)
+    {
+        $materials = MaterialProduct::with("material")
+            ->where("material_products.product_id", $product_id)
+            ->get();
+        return response()->json($materials);
+    }
+
     /**
      * Display the specified resource.
      *
@@ -115,7 +126,6 @@ class ProductController extends Controller
         $product = ProductCategory::find($id);
         return $product;
     }
-
 
 
     /**
@@ -142,10 +152,8 @@ class ProductController extends Controller
         $data->update([
             "name" => $request->input("name"),
             "product_category_id" => $request->input("product_category_id"),
-            "cost" => $request->input("cost"),
+            "total_cost" => $request->input("total_cost"),
             "unit" => $request->input("unit"),
-            "tax_class" =>
-            $request->input("tax_class"),
             "price" =>
             $request->input("price"),
             "gross_profit" =>
