@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\DeliverySlipController;
 use App\Http\Controllers\Api\FixedCostController;
 use App\Http\Controllers\Api\InvoiceController;
 use App\Http\Controllers\Api\MaterialController;
+use App\Http\Controllers\Api\MyCompanyController;
 use App\Http\Controllers\Api\ProductController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -118,4 +119,11 @@ Route::prefix("material")
         Route::post("", [MaterialController::class, "store"])->name("store");
 
         Route::get("/{id}/products", [MaterialController::class, "showProducts"])->name("showProducts");
+    });
+
+Route::prefix("company")
+    ->name("company.")
+    ->group(function () {
+        Route::get("/{id}", [MyCompanyController::class, "show"])->name("show");
+        Route::patch("/{id}", [MyCompanyController::class, "update"])->name("update");
     });
