@@ -61,7 +61,6 @@ class DeliverySlipController extends Controller
      */
     public function store(Request $request)
     {
-        Log::debug($request->all());
         DB::transaction(
             function () use ($request) {
                 $customer_id = $request->input("customer_id");
@@ -76,16 +75,17 @@ class DeliverySlipController extends Controller
 
                 foreach ($request["contents"] as $itemData) {
                     $product_id = $itemData["product_id"];
-                    // CustomerPriceに登録されてなくて、金額がデフォルトじゃなかったら登録する。
-                    $isNewCustomerPrice = CustomerPrice::where("customer_id", $customer_id)->where("product_id", $product_id)->first();
-                    Log::debug($product_id);
-                    $defaultPrice = Product::find($product_id)->price;
-                    if (!$isNewCustomerPrice  && ($itemData["price"] !== $defaultPrice)) {
-                        CustomerPrice::create([
-                            "customer_id" => $customer_id,
-                            "product_id" => $product_id,
-                            "price" => $itemData["price"],
-                        ]);
+                    if ($product_id !== null) {
+                        // CustomerPriceに登録されてなくて、金額がデフォルトじゃなかったら登録する。
+                        $isNewCustomerPrice = CustomerPrice::where("customer_id", $customer_id)->where("product_id", $product_id)->first();
+                        $defaultPrice = Product::find($product_id)->price;
+                        if (!$isNewCustomerPrice  && ($itemData["price"] !== $defaultPrice)) {
+                            CustomerPrice::create([
+                                "customer_id" => $customer_id,
+                                "product_id" => $product_id,
+                                "price" => $itemData["price"],
+                            ]);
+                        }
                     }
 
                     $content = new DeliveryContent();
