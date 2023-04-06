@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\DeliverySlipController;
 use App\Http\Controllers\Api\FixedCostController;
 use App\Http\Controllers\Api\InvoiceController;
 use App\Http\Controllers\Api\MaterialController;
+use App\Http\Controllers\Api\MyCompanyController;
 use App\Http\Controllers\Api\ProductController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -77,8 +78,10 @@ Route::prefix("delivery_slip")
     ->name("delivery_slip.")
     ->group(function () {
         Route::get("", [DeliverySlipController::class, "index"])->name("index");
+        Route::patch("/{id}", [DeliverySlipController::class, "update"])->name("update");
         Route::get("/create", [DeliverySlipController::class, "create"])->name("create");
         Route::get("/{id}", [DeliverySlipController::class, "show"])->name("show");
+        Route::delete("/{id}", [DeliverySlipController::class, "destroy"])->name("destroy");
 
         Route::post("", [DeliverySlipController::class, "store"])->name("store");
     });
@@ -118,4 +121,11 @@ Route::prefix("material")
         Route::post("", [MaterialController::class, "store"])->name("store");
 
         Route::get("/{id}/products", [MaterialController::class, "showProducts"])->name("showProducts");
+    });
+
+Route::prefix("company")
+    ->name("company.")
+    ->group(function () {
+        Route::get("/{id}", [MyCompanyController::class, "show"])->name("show");
+        Route::patch("/{id}", [MyCompanyController::class, "update"])->name("update");
     });

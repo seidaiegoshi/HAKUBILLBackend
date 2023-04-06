@@ -61,7 +61,7 @@ class DeliverySlipController extends Controller
      */
     public function store(Request $request)
     {
-        DB::transaction(
+        $delivery_Slip = DB::transaction(
             function () use ($request) {
                 $customer_id = $request->input("customer_id");
 
@@ -69,6 +69,7 @@ class DeliverySlipController extends Controller
                     "customer_id" => $customer_id,
                     "customer_name" => $request->input("customer_name"),
                     "customer_address" => $request->input("customer_address"),
+                    "customer_post_code" => $request->input("customer_post_code"),
                     "publish_date" => $request->input("publish_date"),
                     "total_price" => $request->input("total_price"),
                 ]);
@@ -101,9 +102,11 @@ class DeliverySlipController extends Controller
                     $content->subtotal_gross_profit = $itemData["subtotal_gross_profit"];
                     $content->save();
                 }
+                return $ds; // トランザクションの戻り値として$dsを返す
+
             }
         );
-        // return new DeliverySlipResource($ds);
+        return $delivery_Slip;
     }
 
 
@@ -142,7 +145,63 @@ class DeliverySlipController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $delivery_Slip = DB::transaction(
+            function () use ($request, $id) {
+                $ds = DeliverySlip::find($id);
+                $customer_id = $request->input("customer_id");
+
+                // 納品書の基本データを登録
+                $ds->update([
+                    "customer_id" => $customer_id,
+                    "customer_name" => $request->input("customer_name"),
+                    "customer_address" => $request->input("customer_address"),
+                    "customer_post_code" => $request->input("customer_post_code"),
+                    "publish_date" => $request->input("publish_date"),
+                    "total_price" => $request->input("total_price"),
+                ]);
+
+
+
+                // 納品書のコンテンツを登録する。
+                //  一度消して、登録し直す。
+                DeliveryContent::where("delivery_slip_id", $id)->delete();
+
+                foreach ($request["contents"] as $itemData) {
+                    $product_id = $itemData["product_id"];
+
+                    // 取引先が初めてその商品を扱う場合、それを取引先別価格として登録する。
+                    if ($product_id !== null) {
+                        // CustomerPriceに登録されてなくて、金額がデフォルトじゃなかったら登録する。
+                        $isNewCustomerPrice = CustomerPrice::where("customer_id", $customer_id)->where("product_id", $product_id)->first();
+                        $defaultPrice = Product::find($product_id)->price;
+                        if (!$isNewCustomerPrice  && ($itemData["price"] !== $defaultPrice)) {
+                            CustomerPrice::create([
+                                "customer_id" => $customer_id,
+                                "product_id" => $product_id,
+                                "price" => $itemData["price"],
+                            ]);
+                        }
+                    }
+
+                    // コンテンツを登録する。
+                    $content = new DeliveryContent();
+                    $content->delivery_slip_id = $ds->id;
+                    $content->product_id = $product_id;
+                    $content->product_name = $itemData["product_name"];
+                    $content->unit = $itemData["unit"];
+                    $content->total_cost = $itemData["total_cost"];
+                    $content->price = $itemData["price"];
+                    $content->quantity = $itemData["quantity"];
+                    $content->gross_profit = $itemData["gross_profit"];
+                    $content->subtotal = $itemData["subtotal"];
+                    $content->subtotal_gross_profit = $itemData["subtotal_gross_profit"];
+                    $content->save();
+                }
+                return $ds; // トランザクションの戻り値として$dsを返す
+
+            }
+        );
+        return $delivery_Slip;
     }
 
     /**
@@ -153,6 +212,14 @@ class DeliverySlipController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $delivery_Slip = DB::transaction(
+            function () use ($id) {
+                DeliveryContent::where("delivery_slip_id", $id)->delete();
+
+                $ds = DeliverySlip::find($id);
+                $ds->delete();
+            }
+        );
+        return $delivery_Slip;
     }
 }

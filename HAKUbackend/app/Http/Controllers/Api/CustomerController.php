@@ -97,7 +97,7 @@ class CustomerController extends Controller
      */
     public function store(Request $request)
     {
-        $product = Customer::create([
+        $customer = Customer::create([
             "name" => $request->input("name"),
             "honorific" => $request->input("honorific"),
             "post" => $request->input("post"),
@@ -110,7 +110,7 @@ class CustomerController extends Controller
             "fax_number" =>
             $request->input("fax_number"),
         ]);
-        return new CustomerResource($product);
+        return new CustomerResource($customer);
     }
 
     /**
@@ -204,8 +204,8 @@ class CustomerController extends Controller
      */
     public function destroy($id)
     {
-        $product = Customer::find($id);
-        $product->delete();
+        $customer = Customer::find($id);
+        $customer->delete();
     }
     public function destroyCustomerPrice($id)
     {
