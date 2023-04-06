@@ -212,6 +212,14 @@ class DeliverySlipController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $delivery_Slip = DB::transaction(
+            function () use ($id) {
+                DeliveryContent::where("delivery_slip_id", $id)->delete();
+
+                $ds = DeliverySlip::find($id);
+                $ds->delete();
+            }
+        );
+        return $delivery_Slip;
     }
 }

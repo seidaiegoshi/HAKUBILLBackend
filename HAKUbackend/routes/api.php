@@ -81,6 +81,7 @@ Route::prefix("delivery_slip")
         Route::patch("/{id}", [DeliverySlipController::class, "update"])->name("update");
         Route::get("/create", [DeliverySlipController::class, "create"])->name("create");
         Route::get("/{id}", [DeliverySlipController::class, "show"])->name("show");
+        Route::delete("/{id}", [DeliverySlipController::class, "destroy"])->name("destroy");
 
         Route::post("", [DeliverySlipController::class, "store"])->name("store");
     });
