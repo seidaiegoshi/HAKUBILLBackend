@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('fixed_costs', function (Blueprint $table) {
             $table->id();
             $table->string("name");
-            $table->decimal("price");
+            $table->decimal("price", 10, 1);
             $table->timestamps();
         });
     }
